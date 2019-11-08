@@ -137,6 +137,26 @@ body
       grid-column: 1/ span 4;
       height:35px;
     }
+    h1 
+    {
+      grid-column: 1 / span 4;
+    }
+    div.st-total 
+    {
+      grid-column: span 2;
+      font-weight: 700;
+      font-size: 30px;
+      text-align: center;
+    }
+    div.st-back 
+    {
+      grid-column: 1/span 2;
+      grid-column-start:1;
+      font-weight: 700;
+      font-size: 30px;
+      background-color:$gray;
+      text-align: center;
+    }
     div.st-product
     {
       width:calc(100% - 20px);
