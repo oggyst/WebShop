@@ -1,0 +1,33 @@
+@mixin break-point($resolution) {
+  @media (max-width: $resolution) {
+    @content;
+  }
+}
+@mixin break-point-h($resolution) {
+  @media (max-height: $resolution) {
+    @content;
+  }
+}
+@mixin vertical-center {
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+@mixin text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index:3;
+  &:hover
+  {
+    border: 1px solid #eee;
+    padding:2px;
+    white-space: normal;
+    word-break: break-word;
+    z-index:5;
+    background-color:#eee;
+    height:fit-content;
+  }
+}

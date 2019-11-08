@@ -1,0 +1,163 @@
+body {
+  margin: 0px;
+}
+
+body div.st-header-holder {
+  width: 100%;
+  height: 100px;
+  background-color: #E5E7E6;
+}
+
+body div.st-header-holder div.st-header {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0px auto;
+}
+
+body div.st-header-holder div.st-header div.st-logo-holder img {
+  height: 80px;
+  width: 80px;
+  margin: 10px;
+  border-radius: 8px;
+  float: left;
+}
+
+body div.st-header-holder div.st-header div.st-search {
+  height: 100px;
+  float: left;
+  max-width: 750px;
+  width: calc(100% - 350px);
+  height: 100px;
+}
+
+body div.st-header-holder div.st-header div.st-search input {
+  height: 30px;
+  margin: 25px;
+  font-size: 20px;
+  width: calc(100% - 50px);
+  background-color: white;
+  padding: 10px;
+}
+
+body div.st-header-holder div.st-header div.st-right-header {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  float: right;
+  width: 250px;
+  position: relative;
+}
+
+body div.st-header-holder div.st-header div.st-right-header #st-login-form {
+  display: none;
+  position: absolute;
+  top: 65px;
+  background-color: #E5E7E6;
+  width: 200px;
+  padding: 20px;
+}
+
+body div.st-header-holder div.st-header div.st-right-header #st-login-form h1 {
+  margin: 5px 0;
+}
+
+body div.st-header-holder div.st-header div.st-right-header #st-login-form label {
+  width: 100%;
+}
+
+body div.st-header-holder div.st-header div.st-right-header #st-login-form input {
+  width: 100%;
+  margin: 5px 0;
+}
+
+body div.st-header-holder div.st-header div.st-right-header #st-login-form #st-incorrect {
+  color: red;
+  margin: 0 0 5px 5px;
+}
+
+body div.st-header-holder div.st-header div.st-right-header #st-login-form button {
+  color: white;
+  padding: 5px;
+  width: 48%;
+  opacity: 0.8;
+}
+
+body div.st-header-holder div.st-header div.st-right-header #st-login-form button:hover {
+  opacity: 1;
+}
+
+body div.st-header-holder div.st-header div.st-right-header #st-login-form button.st-login {
+  background-color: #76cc4e;
+}
+
+body div.st-header-holder div.st-header div.st-right-header #st-login-form button.st-cancel {
+  background-color: red;
+}
+
+body div.st-header-holder div.st-header div.st-right-header span.st-account {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 100px;
+  height: 100px;
+  float: left;
+  width: 200px;
+  text-align: center;
+}
+
+body div.st-header-holder div.st-header div.st-right-header i {
+  font-size: 20px;
+  float: right;
+  width: 50px;
+  text-align: center;
+  line-height: 100px;
+}
+
+body #st-select {
+  max-width: 1100px;
+  width: 100%;
+  margin: 5px auto;
+}
+
+body #st-select #st-categories {
+  width: 100%;
+  padding: 7px;
+}
+
+body #st-content {
+  max-width: 1100px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 4px;
+  margin: 10px auto;
+}
+
+body #st-content #st-categories {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 4;
+  grid-column: 1/ span 4;
+  height: 35px;
+}
+
+body #st-content div.st-product {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+body #st-content div.st-product div.st-details {
+  display: none;
+  font-weight: 400;
+}
+
+body #st-content div.st-product:hover {
+  background-color: #E5E7E6;
+}
+
+body #st-content div.st-product:hover div.st-details {
+  display: block;
+}
+/*# sourceMappingURL=styles.css.map */

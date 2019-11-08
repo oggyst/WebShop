@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PC shop</title>
+    <script src="./js/script.js"></script>
+    <script src="https://kit.fontawesome.com/3d110c4fdd.js"></script>
+    <link rel="stylesheet" href="./scss/styles.css">
+</head>
+
+<body onload="start()">
+    <div class="st-header-holder">
+        <div class="st-header">
+            <div class="st-logo-holder">
+                <img src="./img/logo.jpg" alt="">
+            </div>
+            <div class="st-search">
+                <input type="text" class = "st-search" placeholder="Pretraga">
+            </div>
+            <div class="st-right-header">
+                <div class="st-login">
+                    <span id = "st-name" class="st-account" onclick = "login()">Moj nalog</span>
+                    <div id="st-login-form">
+                                <h1> Log in</h1>
+                                <label><b>Username</b></label>
+                                <input id = "username" type="text" placeholder="&nbsp;&nbsp;Enter username" required>
+                            
+                                <label><b>Last name</b></label>
+                                <input id = "secondName" type="text" placeholder="&nbsp;&nbsp;Enter last name" required>
+                                <p id = "st-incorrect"></p>
+                                <button type="submit" class="st-login" onclick="checkInfo()">Login</button>
+                                <button type="button" class="st-cancel" onclick="closeForm()">Close</button>
+                    </div>
+                </div>
+                    <i class="fas fa-shopping-cart" onclick = "shopingCart()"></i>
+            </div>
+        </div>
+    </div>
+    <div id="st-select"></div>
+    <div id="st-content">
+    </div>
+</body>
+
+</html>
+
