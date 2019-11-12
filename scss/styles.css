@@ -14,6 +14,13 @@ body div.st-header-holder div.st-header {
   margin: 0px auto;
 }
 
+@media (max-width: 1130px) {
+  body div.st-header-holder div.st-header {
+    margin: 0px 15px;
+    width: calc(100% - 30px);
+  }
+}
+
 body div.st-header-holder div.st-header div.st-logo-holder img {
   height: 80px;
   width: 80px;
@@ -118,6 +125,13 @@ body #st-select {
   margin: 5px auto;
 }
 
+@media (max-width: 1130px) {
+  body #st-select {
+    margin: 5px 15px;
+    width: calc(100% - 30px);
+  }
+}
+
 body #st-select #st-categories {
   width: 100%;
   padding: 7px;
@@ -129,8 +143,24 @@ body #st-content {
   display: grid;
   -ms-grid-columns: 1fr 1fr 1fr 1fr;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 4px;
+  grid-gap: 15px;
   margin: 10px auto;
+}
+
+@media (max-width: 1130px) {
+  body #st-content {
+    -ms-grid-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+    margin: 10px 15px;
+  }
+}
+
+@media (max-width: 800px) {
+  body #st-content {
+    -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+    margin: 10px 15px;
+  }
 }
 
 body #st-content #st-categories {
@@ -166,22 +196,18 @@ body #st-content div.st-back {
 
 body #st-content div.st-product {
   width: calc(100% - 20px);
-  padding: 10px;
-  border: 1px solid #e0e0e0;
+  padding: 15px 8px;
+  border: 2px solid #e0e0e0;
   border-radius: 5px;
   font-weight: 700;
 }
 
 body #st-content div.st-product div.st-details {
-  display: none;
+  display: block;
   font-weight: 400;
 }
 
 body #st-content div.st-product:hover {
   background-color: #E5E7E6;
-}
-
-body #st-content div.st-product:hover div.st-details {
-  display: block;
 }
 /*# sourceMappingURL=styles.css.map */

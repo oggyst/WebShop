@@ -13,6 +13,11 @@ body
       width:100%;
       max-width: 1100px;
       margin:0px auto;
+      @include break-point(1130px)
+      {
+        margin: 0px 15px;
+        width: calc(100% - 30px);
+      }
       div.st-logo-holder
       {
         img 
@@ -119,6 +124,11 @@ body
     max-width:1100px;
     width:100%;
     margin:5px auto;
+    @include break-point(1130px)
+    {
+      margin: 5px 15px;
+      width: calc(100% - 30px);
+    }
     #st-categories
     {
       width:100%;
@@ -130,8 +140,19 @@ body
     max-width:1100px;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap:4px;
+    grid-gap:15px;
     margin:10px auto;
+    
+    @include break-point(1130px)
+    {
+      grid-template-columns: 1fr 1fr 1fr;
+      margin: 10px 15px;
+    }
+    @include break-point(800px)
+    {
+      grid-template-columns: 1fr 1fr;
+      margin: 10px 15px;
+    }
     #st-categories
     {
       grid-column: 1/ span 4;
@@ -160,22 +181,18 @@ body
     div.st-product
     {
       width:calc(100% - 20px);
-      padding:10px;
-      border: 1px solid $border-gray;
+      padding:15px 8px;
+      border: 2px solid $border-gray;
       border-radius:5px;
       font-weight: 700;
       div.st-details
       {
-        display:none;
+        display:block;
         font-weight: 400;
       }
       &:hover
       {
-        background-color:$gray;
-        div.st-details
-        {
-          display:block;
-        }
+        background-color:$gray;       
       }
     }
   }

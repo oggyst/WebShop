@@ -18,24 +18,29 @@
                 <img src="./img/logo.jpg" alt="">
             </div>
             <div class="st-search">
-                <input type="text" class = "st-search" id = "search-button" oninput="search()" placeholder="Search">
+                <input type="text" class="st-search" id="search-button" oninput="search()" placeholder="Search">
             </div>
             <div class="st-right-header">
                 <div class="st-login">
-                    <span id = "st-name" class="st-account" onclick = "login()">Moj nalog</span>
+                    <span id="st-name" class="st-account" onclick="login()">Account</span>
                     <div id="st-login-form">
-                                <h1> Log in</h1>
-                                <label><b>Username</b></label>
-                                <input id = "username" type="text" placeholder="&nbsp;&nbsp;Enter username" required>
-                            
-                                <label><b>Last name</b></label>
-                                <input id = "secondName" type="text" placeholder="&nbsp;&nbsp;Enter last name" required>
-                                <p id = "st-incorrect"></p>
-                                <button type="submit" class="st-login" onclick="checkInfo()">Login</button>
-                                <button type="button" class="st-cancel" onclick="closeForm()">Close</button>
+                        <div id="st-no-user">
+                            <h1> Log in</h1>    
+                            <label><b>Username</b></label>
+                            <input id="username" type="text" placeholder="&nbsp;&nbsp;Enter username" required>
+
+                            <label><b>Last name</b></label>
+                            <input id="secondName" type="text" placeholder="&nbsp;&nbsp;Enter last name" required>
+                            <p id="st-incorrect"></p>
+                            <button type="submit" class="st-login" onclick="checkInfo()">Login</button>
+                            <button type="button" class="st-cancel" onclick="closeForm()">Close</button>
+                        </div>
+                        <div id="st-with-user">
+                            <input type="button" value="Profile" onclick="info()">
+                            <input type="button" value="log out" onclick="logOut()"></div>
                     </div>
                 </div>
-                    <i class="fas fa-shopping-cart" onclick = "shopingCart()"></i>
+                <i class="fas fa-shopping-cart" onclick="shopingCart()"></i>
             </div>
         </div>
     </div>
@@ -44,4 +49,3 @@
 </body>
 
 </html>
-
