@@ -151,7 +151,10 @@ body
     @include break-point(800px)
     {
       grid-template-columns: 1fr 1fr;
-      margin: 10px 15px;
+    }
+    @include break-point(500px)
+    {
+      grid-template-columns: 1fr;
     }
     #st-categories
     {
@@ -189,6 +192,14 @@ body
       {
         display:block;
         font-weight: 400;
+        input 
+        {
+          width: calc(100% - 50px);
+        }
+        button 
+        {
+          width:45px;
+        }
       }
       &:hover
       {

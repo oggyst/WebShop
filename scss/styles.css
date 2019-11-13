@@ -159,7 +159,13 @@ body #st-content {
   body #st-content {
     -ms-grid-columns: 1fr 1fr;
         grid-template-columns: 1fr 1fr;
-    margin: 10px 15px;
+  }
+}
+
+@media (max-width: 500px) {
+  body #st-content {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
   }
 }
 
@@ -205,6 +211,14 @@ body #st-content div.st-product {
 body #st-content div.st-product div.st-details {
   display: block;
   font-weight: 400;
+}
+
+body #st-content div.st-product div.st-details input {
+  width: calc(100% - 50px);
+}
+
+body #st-content div.st-product div.st-details button {
+  width: 45px;
 }
 
 body #st-content div.st-product:hover {
