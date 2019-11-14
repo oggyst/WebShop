@@ -104,7 +104,7 @@ function login() {
 
 function logOut() {
 	strChossenUser = "";
-	intUserID = null;
+	intUserID = "";
 	deleteCookie();
 	document.getElementById("st-name").innerHTML = ("Account");
 	if (document.getElementById("st-login-form").style.display == "block") {
@@ -119,6 +119,7 @@ function logOut() {
 
 function info() {
 	window.alert(strChossenUser);
+	closeForm();
 }
 
 function search() {
@@ -141,6 +142,7 @@ function search() {
 function checkInfo() {
 	let strUsername = document.getElementById("username").value;
 	let strSecondName = document.getElementById("secondName").value;
+	console.log(document.getElementById("st-loged-in").checked);
 	fetch('https://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json')
 		.then((resp) => resp.json())
 		.then(function (data) {
@@ -165,12 +167,16 @@ function checkInfo() {
 						login();
 					}
 				}
+				if(document.getElementById("st-loged-in").checked)
+				{
+				setCookie();
+				}
 			}
 			if (!boolLogedIn) {
 				document.getElementById("st-incorrect").innerHTML = ("Wrong credentials");
 			}
 			else {
-				setCookie();
+				
 				document.getElementById("st-no-user").style.display = "none";
 				document.getElementById("st-with-user").style.display = "block";
 			}
@@ -230,7 +236,6 @@ function addProductMenu()
 }
 function addProduct()
 {
-	let arrNewProducts = [[]];
 	let strProductName = document.getElementById("product-name").value;
 	let intCost = document.getElementById("price").value;
 	if(strProductName == "" || intCost == 0)
@@ -238,11 +243,9 @@ function addProduct()
 		window.alert ("Insert all values");
 	} else
 	{
-		arrNewProducts = [];
-		arrNewProducts.value[arrNewProducts.length].ProductID = arrNewProducts.length + 1;
-		arrNewProducts[arrNewProducts.length].ProductName = strProductName;
-		arrNewProducts[arrNewProducts.length].UnitPrice = intCost;
-		console.log(arrNewProducts);
+		dataProducts.value[dataProducts.length].ProductID = dataProducts.length;
+		dataProducts[dataProducts.length].ProductName = strProductName;
+		dataProducts[dataProducts.length].UnitPrice = intCost;
 	}
 	
 	console.log (strProductName + intCost);
