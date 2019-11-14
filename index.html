@@ -15,8 +15,12 @@
     <div class="st-header-holder">
         <div class="st-header">
             <div class="st-logo-holder">
-                <img src="./img/logo.jpg" alt="">
-                
+                <img src="./img/logo.jpg" alt="" onclick = "dropMenu()">
+                <div id="st-drop-menu">
+                    <input type="button" value="add product" onclick = "addProductMenu()">
+                    <input type = "button" value = "remove product" onclick="removeProduct()">
+                </div>
+
             </div>
             <div class="st-search">
                 <input type="text" class="st-search" id="search-button" oninput="search()" placeholder="Search">
@@ -26,7 +30,7 @@
                     <span id="st-name" class="st-account" onclick="login()">Account</span>
                     <div id="st-login-form">
                         <div id="st-no-user">
-                            <h1> Log in</h1>    
+                            <h1> Log in</h1>
                             <label><b>Username</b></label>
                             <input id="username" type="text" placeholder="&nbsp;&nbsp;Enter username" required>
 
@@ -47,6 +51,7 @@
     </div>
     <div id="st-select"></div>
     <div id="st-content"></div>
+    
 </body>
 
 </html>

@@ -21,12 +21,28 @@ body div.st-header-holder div.st-header {
   }
 }
 
+body div.st-header-holder div.st-header div.st-logo-holder {
+  position: relative;
+}
+
 body div.st-header-holder div.st-header div.st-logo-holder img {
   height: 80px;
   width: 80px;
   margin: 10px;
   border-radius: 8px;
   float: left;
+}
+
+body div.st-header-holder div.st-header div.st-logo-holder #st-drop-menu {
+  position: absolute;
+  top: 90px;
+  width: 110px;
+  display: none;
+}
+
+body div.st-header-holder div.st-header div.st-logo-holder #st-drop-menu input {
+  height: 25px;
+  width: 100%;
 }
 
 body div.st-header-holder div.st-header div.st-search {

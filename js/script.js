@@ -4,11 +4,12 @@ let intUserID;
 let strChossenUser;
 let intChossenCategorie;
 let dataProducts;
+let boolAddingNew = false;
 let strCategories;
 let arrBoughtProducts = [];
 
 function buy(x) {
-	if (boolLogedIn) {
+	if (boolLogedIn && document.getElementById("st-quantity" + (x)).value != 0) {
 		arrBoughtProducts[arrBoughtProducts.length] = intUserID;
 		for (var j = 0; j < dataProducts.value.length; j++) {
 			if (dataProducts.value[j].ProductID == x) {
@@ -17,6 +18,10 @@ function buy(x) {
 			}
 		}
 		arrBoughtProducts[arrBoughtProducts.length] = document.getElementById("st-quantity" + (x)).value;
+	}
+	else if (document.getElementById("st-quantity" + (x)).value == 0)
+	{
+		window.alert("Select quanity first.");
 	}
 	else {
 		window.alert("Please login first");
@@ -39,7 +44,7 @@ function remove(x)
 		}
 	}
 	arrBoughtProducts = arrTemporary;	
-	console.log(arrBoughtProducts);
+	localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
 	if (arrBoughtProducts.length == 0)
 	{
 		goBack();
@@ -58,7 +63,7 @@ function shopingCart() {
 			if (intUserID == arrBoughtProducts[i]) {
 				intTotalProduct = arrBoughtProducts[i + 2] * arrBoughtProducts[i + 3];
 				strShopingCart += '<div class = "st-product">' + arrBoughtProducts[i + 1] + '</br>' + Math.floor(arrBoughtProducts[i + 3]) + ' units, total: ' + Math.floor(intTotalProduct) +
-					'</br> <input type = "number" id="quanity'+ i + '" max = "' + arrBoughtProducts[i + 3] + '"> <button id = "st-remove" onclick ="remove(' + i + ')">Remove</button> </div>';
+					'</br> <button id = "st-remove" onclick ="remove(' + i + ')">Remove</button> </div>';
 			}
 			intTotalCart += intTotalProduct;
 		}
@@ -73,14 +78,16 @@ function shopingCart() {
 }
 function goBack() {
 	document.getElementById("st-content").innerHTML = '<div id ="st-select"></div><div id = "st-content></div>';
-	document.getElementById("st-select").innerHTML = strCategories;
+	document.getElementById("st-select").innerHTML = ('<select onchange = "onChange(this)" id ="st-categories" name = "categories"><option value="0">All categories</option>' + strCategories);
 	document.getElementById("st-content").innerHTML = arrCategories[arrCategories.length - 1];
 }
 
 function onChange(x) {
-
+	if (!boolAddingNew)
+	{
 	document.getElementById("st-content").innerHTML = (arrCategories[x.value]);
 	intChossenCategorie = x.value;
+	}
 }
 
 function closeForm() {
@@ -199,9 +206,50 @@ function deleteCookie() {
 	document.cookie = "username=" + intUserID + ";" + expires + ";path=/";
 }
 
+function dropMenu()
+{
+	if (document.getElementById("st-drop-menu").style.display == "block")
+	{
+		document.getElementById("st-drop-menu").style.display = "none";
+	} else 
+	{
+	document.getElementById("st-drop-menu").style.display = "block";
+	}
+}
+
+function addProductMenu()
+{
+	dropMenu();
+	for (var i = 0; i < arrCategories.length; i++);
+	boolAddingNew = true;
+	console.log(dataProducts);
+	document.getElementById("st-select").innerHTML = '';
+	document.getElementById("st-content").innerHTML = ('<div class = "st-new-product"><input type="text" placeholder = "Insert product name" id="product-name">'
+	+'<input type="number" placeholder = "Cost of product" id= "price"></input><select onchange = "onChange(this)" id ="st-categories" name = "categories">' + strCategories + 
+	'<input type = "button" value ="add" onclick="addProduct()"></div>')
+}
+function addProduct()
+{
+	let arrNewProducts = [[]];
+	let strProductName = document.getElementById("product-name").value;
+	let intCost = document.getElementById("price").value;
+	if(strProductName == "" || intCost == 0)
+	{
+		window.alert ("Insert all values");
+	} else
+	{
+		arrNewProducts = [];
+		arrNewProducts.value[arrNewProducts.length].ProductID = arrNewProducts.length + 1;
+		arrNewProducts[arrNewProducts.length].ProductName = strProductName;
+		arrNewProducts[arrNewProducts.length].UnitPrice = intCost;
+		console.log(arrNewProducts);
+	}
+	
+	console.log (strProductName + intCost);
+}
 
 function start() {
-
+	
 	let strContent = "";
 	let boolDoOnce = true;
 	intUserID = getCookie();
@@ -219,14 +267,15 @@ function start() {
 				.then((resp2) => resp2.json())
 				.then(function (products) {
 					dataProducts = products;
+					console.log(dataProducts);
 					strCategories = "";
-					strCategories += '<select onchange = "onChange(this)" id ="st-categories" name = "categories"><option value="' + (data.value.length + 1) + '">All categories</option>';
+					// strCategories += '<select onchange = "onChange(this)" id ="st-categories" name = "categories"><option value="0">All categories</option>';
 					for (var i = 0; i < data.value.length; i++) {
 						strCategories += '<option value = "' + data.value[i].CategoryID + '">' + data.value[i].CategoryName + '</option>';
 					}
 
 					strCategories += '</select>'
-					document.getElementById("st-select").innerHTML = (strCategories);
+					document.getElementById("st-select").innerHTML = ('<select onchange = "onChange(this)" id ="st-categories" name = "categories"><option value="0">All categories</option>' + strCategories);
 					strContent = "";
 					for (var i = 1; i < data.value.length + 1; i++) {
 						arrCategories[i] = "";
@@ -240,13 +289,13 @@ function start() {
 									products.value[j].QuantityPerUnit + '<input type="number" id="st-quantity' + products.value[j].ProductID + '"><button onclick ="buy(' + products.value[j].ProductID + ')">Buy</button></div> </div>';
 							}
 						}
-						arrCategories[(data.value.length + 1)] = strContent;
+						arrCategories[(0)] = strContent;
 						boolDoOnce = false;
 					}
 					if (intUserID != "") {
 						checkInfo();
 					}
-					document.getElementById("st-content").innerHTML = (arrCategories[(data.value.length + 1)]);
+					document.getElementById("st-content").innerHTML = (arrCategories[(0)]);
 				})
 				.catch(function (error) {
 					console.log(error);
