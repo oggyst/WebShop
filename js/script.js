@@ -7,6 +7,7 @@ let dataProducts;
 let boolAddingNew = false;
 let strCategories;
 let arrBoughtProducts = [];
+let arrProducts = [];
 
 function buy(x) {
 	if (boolLogedIn && document.getElementById("st-quantity" + (x)).value != 0) {
@@ -79,7 +80,7 @@ function shopingCart() {
 function goBack() {
 	document.getElementById("st-content").innerHTML = '<div id ="st-select"></div><div id = "st-content></div>';
 	document.getElementById("st-select").innerHTML = ('<select onchange = "onChange(this)" id ="st-categories" name = "categories"><option value="0">All categories</option>' + strCategories);
-	document.getElementById("st-content").innerHTML = arrCategories[arrCategories.length - 1];
+	document.getElementById("st-content").innerHTML = arrCategories[0];
 }
 
 function onChange(x) {
@@ -87,6 +88,7 @@ function onChange(x) {
 	{
 	document.getElementById("st-content").innerHTML = (arrCategories[x.value]);
 	intChossenCategorie = x.value;
+	console.log(intChossenCategorie);
 	}
 }
 
@@ -142,7 +144,6 @@ function search() {
 function checkInfo() {
 	let strUsername = document.getElementById("username").value;
 	let strSecondName = document.getElementById("secondName").value;
-	console.log(document.getElementById("st-loged-in").checked);
 	fetch('https://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json')
 		.then((resp) => resp.json())
 		.then(function (data) {
@@ -243,12 +244,31 @@ function addProduct()
 		window.alert ("Insert all values");
 	} else
 	{
-		dataProducts.value[dataProducts.length].ProductID = dataProducts.length;
-		dataProducts[dataProducts.length].ProductName = strProductName;
-		dataProducts[dataProducts.length].UnitPrice = intCost;
+		arrProducts [arrProducts.length] = dataProducts.value.length + arrProducts.length + 1;
+		arrProducts [arrProducts.length] = strProductName;
+		arrProducts [arrProducts.length] = intCost; 
+		arrProducts [arrProducts.length] = document.getElementById("st-categories").value;
+		localStorage.setItem("arrProducts", JSON.stringify(arrProducts));
+		update();
+
 	}
+}
+
+function update()
+{
+	arrProducts = JSON.parse(localStorage.getItem("arrProducts"));
+	console.log(arrProducts);
+	if(arrProducts != null)
+	{
+		for (var i = 0; i < arrProducts.length; i += 4)
+		{	console.log(document.getElementById("st-categories").value);
+			arrCategories[document.getElementById("st-categories").value] += '<div class = "st-product" id = "' + arrProducts[i] +'">' + arrProducts[i + 1] + '<br>' + Math.floor(arrProducts[i + 2]) + '€ <div class = "st-details">' +
+			'<input type="number" id="st-quantity' +  arrProducts[i] + '"><button onclick ="buy(' +   arrProducts[i] + ')">Buy</button></div></div>';
+			console.log(arrCategories[document.getElementById("st-categories").value]);
+		}
+	} else
+	arrProducts = [];
 	
-	console.log (strProductName + intCost);
 }
 
 function start() {
@@ -272,7 +292,6 @@ function start() {
 					dataProducts = products;
 					console.log(dataProducts);
 					strCategories = "";
-					// strCategories += '<select onchange = "onChange(this)" id ="st-categories" name = "categories"><option value="0">All categories</option>';
 					for (var i = 0; i < data.value.length; i++) {
 						strCategories += '<option value = "' + data.value[i].CategoryID + '">' + data.value[i].CategoryName + '</option>';
 					}
@@ -292,13 +311,14 @@ function start() {
 									products.value[j].QuantityPerUnit + '<input type="number" id="st-quantity' + products.value[j].ProductID + '"><button onclick ="buy(' + products.value[j].ProductID + ')">Buy</button></div> </div>';
 							}
 						}
-						arrCategories[(0)] = strContent;
+						arrCategories[0] = strContent;
 						boolDoOnce = false;
 					}
 					if (intUserID != "") {
 						checkInfo();
 					}
-					document.getElementById("st-content").innerHTML = (arrCategories[(0)]);
+					update();
+					document.getElementById("st-content").innerHTML = (arrCategories[0]);
 				})
 				.catch(function (error) {
 					console.log(error);
