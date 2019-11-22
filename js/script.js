@@ -140,7 +140,7 @@ function checkInfo() {
 		.then((resp) => resp.json())
 		.then(function (data) {
 
-			if (intUserID != '') {
+			if (intUserID != null) {
 				document.getElementById("st-name").innerHTML = ('Welcome ' + data.value[intUserID].FirstName);
 				strChossenUser = "";
 				strChossenUser += 'From ' + data.value[intUserID].Address;
@@ -227,7 +227,18 @@ function addProduct() {
 	if (strProductName == "" || intCost == 0) {
 		window.alert("Insert all values");
 	} else {
+		if(arrProducts.length == 0)
+		{
 		arrProducts[arrProducts.length] = (dataProducts.value.length + arrProducts.length + 1);
+		} else
+		{
+			for (var i = 0; arrProducts.length > i; i+=4)
+			{
+				x = arrProducts[i];
+				console.log(x);
+			}
+			arrProducts[arrProducts.length] = (x + 1);
+		}
 		arrProducts[arrProducts.length] = strProductName;
 		arrProducts[arrProducts.length] = intCost;
 		arrProducts[arrProducts.length] = Math.floor(document.getElementById("st-categories").value);
@@ -368,6 +379,9 @@ function start() {
 					}
 					if (intUserID != "") {
 						checkInfo();
+					} else
+					{
+						intUserID = null;
 					}
 					update();
 					console.log(dataProducts);
