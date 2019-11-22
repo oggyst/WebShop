@@ -38,10 +38,6 @@ body div.st-header-holder div.st-header div.st-logo-holder #st-drop-menu {
   top: 90px;
   width: 110px;
   display: none;
-  background-color: #E5E7E6;
-  border-radius: 10px;
-  padding: 15px;
-  left: -15px;
 }
 
 body div.st-header-holder div.st-header div.st-logo-holder #st-drop-menu input {
@@ -63,8 +59,6 @@ body div.st-header-holder div.st-header div.st-search input {
   font-size: 20px;
   width: calc(100% - 50px);
   background-color: white;
-  border-radius: 5px;
-  border: 0px;
   padding: 10px;
 }
 
@@ -97,10 +91,6 @@ body div.st-header-holder div.st-header div.st-right-header #st-login-form label
 body div.st-header-holder div.st-header div.st-right-header #st-login-form input {
   width: 100%;
   margin: 5px 0;
-}
-
-body div.st-header-holder div.st-header div.st-right-header #st-login-form #st-loged-in {
-  width: 20px;
 }
 
 body div.st-header-holder div.st-header div.st-right-header #st-login-form #st-incorrect {
@@ -137,20 +127,12 @@ body div.st-header-holder div.st-header div.st-right-header span.st-account {
   text-align: center;
 }
 
-body div.st-header-holder div.st-header div.st-right-header span.st-account:hover {
-  opacity: 0.5;
-}
-
 body div.st-header-holder div.st-header div.st-right-header i {
   font-size: 20px;
   float: right;
   width: 50px;
   text-align: center;
   line-height: 100px;
-}
-
-body div.st-header-holder div.st-header div.st-right-header i:hover {
-  opacity: 0.5;
 }
 
 body #st-select {

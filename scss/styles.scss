@@ -35,10 +35,6 @@ body
           top:90px;
           width:110px;
           display:none;
-          background-color: $gray;
-          border-radius:10px;
-          padding: 15px;
-          left: -15px;
           input 
           {
             height:25px;
@@ -60,8 +56,6 @@ body
           font-size:20px;
           width:calc(100% - 50px);  
           background-color:white;
-          border-radius:5px;
-          border: 0px;
           padding:10px;
         }
       }
@@ -91,10 +85,6 @@ body
             {
               width:100%;
               margin: 5px 0;
-            }
-            #st-loged-in
-            {
-              width:20px;
             }
             #st-incorrect
             {
@@ -130,10 +120,6 @@ body
           float:left;
           width:200px;
           text-align: center;
-          &:hover
-          {
-            opacity: 0.5;
-          }
         }
         i
         {
@@ -142,10 +128,6 @@ body
           width:50px;
           text-align:center;
           line-height: 100px;
-          &:hover
-          {
-            opacity: 0.5;
-          }
         }
       }
     }
