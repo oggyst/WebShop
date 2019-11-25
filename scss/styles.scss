@@ -125,6 +125,11 @@ body
           float:left;
           width:200px;
           text-align: center;
+          border-radius:10px;
+          &:hover
+          {
+            background-color:$border-gray;
+          }
         }
         i
         {
@@ -133,6 +138,11 @@ body
           width:50px;
           text-align:center;
           line-height: 100px;
+          
+          &:hover
+          {
+            background-color:$border-gray;
+          }
         }
       }
     }
@@ -223,6 +233,23 @@ body
       &:hover
       {
         background-color:$gray;       
+      }
+    }
+    .st-new-product
+    {
+      input
+      {
+        width:173px;
+        padding:5px 0px;
+      }
+      #st-categories
+      {
+        width:177px;
+        padding:5px;
+      }
+      input.st-add 
+      {
+        width:177px;
       }
     }
   }

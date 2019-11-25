@@ -39,9 +39,13 @@ function remove(x) {
 		}
 	}
 	arrBoughtProducts = arrTemporary;
+	if (arrBoughtProducts.length == 1 && arrBoughtProducts[0] == 0) {
+		arrBoughtProducts = [];
+	}
 	localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
 	if (arrBoughtProducts.length == 0) {
 		goBack();
+		arrBoughtProducts = [];
 	} else
 		shopingCart();
 }
@@ -62,7 +66,7 @@ function shopingCart() {
 			intTotalCart += intTotalProduct;
 		}
 		if (strShopingCart != '<h1> Currently in your shoping cart is: </h1>') {
-			document.getElementById("st-select").innerHTML = "";
+			document.getElementById("st-select").innerHTML = '<div id = "st-categories"> </div>';
 			strShopingCart += '<div class = "st-back" onclick="goBack()"> Back </div><div class = "st-total">Total cost is: ' + Math.floor(intTotalCart) + '€';
 			document.getElementById("st-content").innerHTML = (strShopingCart);
 		} else if (intUserID != null) {
@@ -116,7 +120,7 @@ function info() {
 }
 
 function search() {
-	if (document.getElementById("search-button").value == "") {
+	if (document.getElementById("search-button").value == undefined) {
 		document.getElementById("st-content").innerHTML = arrCategories[intChossenCategorie];
 	} else {
 		let strSearchResult = '';
@@ -127,6 +131,7 @@ function search() {
 				strSearchResult += '<div class = "st-product">' + dataProducts.value[j].ProductName + '<br>' + Math.floor(dataProducts.value[j].UnitPrice) + '€ <div class = "st-details">' +
 					dataProducts.value[j].QuantityPerUnit + '<input type="number" id="st-quantity' + dataProducts.value[j].ProductID + '"><button onclick ="buy(' + dataProducts.value[j].ProductID + ',' +
 					dataProducts.value[j].ProductName + ', ' + dataProducts.value[j].UnitPrice + ')">Buy</button></div></div>';
+					console.log(document.getElementById("search-button").value);
 			}
 			document.getElementById("st-content").innerHTML = strSearchResult;
 		}
@@ -219,7 +224,7 @@ function addProductMenu() {
 	document.getElementById("st-select").innerHTML = '';
 	document.getElementById("st-content").innerHTML = ('<div class = "st-new-product"><input type="text" placeholder = "Insert product name" id="product-name">'
 		+ '<input type="number" placeholder = "Cost of product" id= "price"></input><select onchange = "onChange(this)" id ="st-categories" name = "categories">' + strCategories +
-		'<input type = "button" value ="add" onclick="addProduct()"></div>')
+		'<input type = "button" value ="add" class = "st-add" onclick="addProduct()"><input type = "button" value ="Return" class = "st-add" onclick="goBack()"></div></div>')
 }
 function addProduct() {
 	let strProductName = document.getElementById("product-name").value;
@@ -289,7 +294,7 @@ function removeProduct() {
 	}
 	arrRemoveProduct[arrRemoveProduct.length] = "</select>";
 	document.getElementById("st-categories").style.display = "none";
-	document.getElementById("st-content").innerHTML = "Chosse item you wanna remove:" + arrRemoveProduct + '<button type = "button" onclick = "deleteProduct()"> Remove </button>';
+	document.getElementById("st-content").innerHTML = "Chosse item you wanna remove:" + arrRemoveProduct + '<button type = "button" onclick = "deleteProduct()"> Remove </button><input type = "button" value ="Return" class = "st-add" onclick="goBack()">';
 }
 
 function deleteProduct() {
@@ -299,6 +304,8 @@ function deleteProduct() {
 			if (dataProducts.value[i] != null) {
 				if (dataProducts.value[i].ProductID == (idToRemove)) {
 					dataProducts.value[i] = null;
+					console.log(":asd");
+					remove(idToRemove);
 				}
 			}
 		}
@@ -376,6 +383,7 @@ function start() {
 					}
 						arrCategories[0] = strContent;
 						boolDoOnce = false;
+						console.log(arrCategories);
 					}
 					if (intUserID != "") {
 						checkInfo();

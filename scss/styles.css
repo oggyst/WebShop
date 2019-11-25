@@ -133,6 +133,11 @@ body div.st-header-holder div.st-header div.st-right-header span.st-account {
   float: left;
   width: 200px;
   text-align: center;
+  border-radius: 10px;
+}
+
+body div.st-header-holder div.st-header div.st-right-header span.st-account:hover {
+  background-color: #e0e0e0;
 }
 
 body div.st-header-holder div.st-header div.st-right-header i {
@@ -141,6 +146,10 @@ body div.st-header-holder div.st-header div.st-right-header i {
   width: 50px;
   text-align: center;
   line-height: 100px;
+}
+
+body div.st-header-holder div.st-header div.st-right-header i:hover {
+  background-color: #e0e0e0;
 }
 
 body #st-select {
@@ -251,5 +260,19 @@ body #st-content div.st-product div.st-details button {
 
 body #st-content div.st-product:hover {
   background-color: #E5E7E6;
+}
+
+body #st-content .st-new-product input {
+  width: 173px;
+  padding: 5px 0px;
+}
+
+body #st-content .st-new-product #st-categories {
+  width: 177px;
+  padding: 5px;
+}
+
+body #st-content .st-new-product input.st-add {
+  width: 177px;
 }
 /*# sourceMappingURL=styles.css.map */
