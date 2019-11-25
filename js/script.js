@@ -338,6 +338,7 @@ function start() {
 
 
 	let boolDoOnce = true;
+	if (intUserId == undefined)
 	intUserID = getCookie();
 
 	arrBoughtProducts = JSON.parse(localStorage.getItem("arrBoughtProducts"));
