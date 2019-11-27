@@ -125,7 +125,7 @@ function login()
 function logOut() 
 {
 	strChossenUser = "";
-	intUserID = "";
+	intUserID = null;
 	boolLogedIn = false;
 	deleteCookie();
 	document.getElementById("st-name").innerHTML = ("Account");
@@ -367,7 +367,6 @@ function deleteProduct()
 				if (dataProducts.value[i].ProductID == (idToRemove)) 
 				{
 					dataProducts.value[i] = null;
-					remove(idToRemove);
 				}
 			}
 		}
@@ -452,11 +451,9 @@ function start()
 					
 					if (intUserID != "") 
 						{
-							console.log("jes");
 							checkInfo();
 						} else 
 						{
-							console.log("Kako o.O");
 							intUserID = null;
 						}
 				}
