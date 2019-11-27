@@ -378,6 +378,7 @@ function deleteProduct()
 		{
 			if (idToRemove == arrProducts[i]) 
 			{
+				
 			} else 
 			{
 				arrTemporary[arrTemporary.length] = arrProducts[i]

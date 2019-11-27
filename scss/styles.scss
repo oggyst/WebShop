@@ -72,6 +72,10 @@ body
           {
             border-color:black;
           }
+          &:focus
+          {
+            border-color:$blue;
+          }
         }
         
       }
@@ -90,6 +94,7 @@ body
           background-color: $gray;
           width:200px;
           padding:20px;
+          z-index:2;
           h1 
           {
             margin: 5px 0;
@@ -235,6 +240,10 @@ body
       border-radius:5px;
       font-weight: 700;
       user-select: none;
+      &:hover
+      {
+        background-color:$gray;       
+      }
       div.st-details
       {
         display:block;
@@ -247,11 +256,12 @@ body
         {
           cursor:pointer;
           width:45px;
+          opacity:0.8;
+          &:hover
+          {
+            opacity: 1;
+          }
         }
-      }
-      &:hover
-      {
-        background-color:$gray;       
       }
     }
     .st-new-product
