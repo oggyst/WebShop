@@ -24,6 +24,7 @@ function buy(element)
 		arrBoughtProducts[arrBoughtProducts.length] = productName;
 		arrBoughtProducts[arrBoughtProducts.length] = unitPrice;
 		arrBoughtProducts[arrBoughtProducts.length] = document.getElementById("st-quantity" + (productId)).value;
+		window.alert("You sucessfully added product to cart.");
 	}
 	else if (document.getElementById("st-quantity" + (productId)).value == null) {
 		window.alert("Select quanity first.");
