@@ -46,6 +46,8 @@ body div.st-header-holder div.st-header div.st-logo-holder #st-drop-menu {
   padding: 15px;
   background-color: #E5E7E6;
   left: -14px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 body div.st-header-holder div.st-header div.st-logo-holder #st-drop-menu input {
@@ -102,6 +104,8 @@ body div.st-header-holder div.st-header div.st-right-header #st-login-form {
   width: 200px;
   padding: 20px;
   z-index: 2;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 body div.st-header-holder div.st-header div.st-right-header #st-login-form h1 {
@@ -242,6 +246,10 @@ body #st-content div.st-total {
   grid-column: span 2;
   font-weight: 700;
   font-size: 30px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   text-align: center;
 }
 
@@ -254,6 +262,11 @@ body #st-content div.st-back {
   font-size: 30px;
   background-color: #E5E7E6;
   text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: pointer;
 }
 
 body #st-content div.st-product {
@@ -270,6 +283,7 @@ body #st-content div.st-product {
 
 body #st-content div.st-product:hover {
   background-color: #E5E7E6;
+  border-color: black;
 }
 
 body #st-content div.st-product div.st-details {
@@ -303,5 +317,10 @@ body #st-content .st-new-product #st-categories {
 
 body #st-content .st-new-product input.st-add {
   width: 177px;
+  opacity: 0.8;
+}
+
+body #st-content .st-new-product input.st-add:hover {
+  opacity: 1;
 }
 /*# sourceMappingURL=styles.css.map */

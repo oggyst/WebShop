@@ -1,4 +1,5 @@
 @import "colors.scss";
+
 @import "mixins.scss";
 body
 {
@@ -43,6 +44,8 @@ body
           padding:15px;
           background-color:$gray;
           left:-14px;
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
           input 
           {
             height:25px;
@@ -95,6 +98,8 @@ body
           width:200px;
           padding:20px;
           z-index:2;
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
           h1 
           {
             margin: 5px 0;
@@ -221,6 +226,7 @@ body
       grid-column: span 2;
       font-weight: 700;
       font-size: 30px;
+      user-select:none;
       text-align: center;
     }
     div.st-back 
@@ -231,6 +237,8 @@ body
       font-size: 30px;
       background-color:$gray;
       text-align: center;
+      user-select:none;
+      cursor:pointer;
     }
     div.st-product
     {
@@ -242,7 +250,8 @@ body
       user-select: none;
       &:hover
       {
-        background-color:$gray;       
+        background-color:$gray;  
+        border-color:black;     
       }
       div.st-details
       {
@@ -279,6 +288,11 @@ body
       input.st-add 
       {
         width:177px;
+        opacity:0.8;
+        &:hover
+        {
+          opacity:1;
+        }
       }
     }
   }

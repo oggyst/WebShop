@@ -275,7 +275,7 @@ function addProductMenu()
 	document.getElementById("st-select").innerHTML = '';
 	document.getElementById("st-content").innerHTML = ('<div class = "st-new-product"><input type="text" placeholder = "Insert product name" id="product-name">'
 		+ '<input type="number" placeholder = "Cost of product" id= "price"></input><select onchange = "onChange(this)" id ="st-categories" name = "categories">' + strCategories +
-		'<input type = "button" value ="add" class = "st-add" onclick="addProduct()"><input type = "button" value ="Return" class = "st-add" onclick="goBack()"></div></div>')
+		'<input type = "button" value ="Add product" class = "st-add" onclick="addProduct()"><input type = "button" value ="Return" class = "st-add" onclick="goBack()"></div></div>')
 }
 function addProduct() 
 {
