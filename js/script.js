@@ -29,6 +29,9 @@ function buy(element)
 	else if (document.getElementById("st-quantity" + (productId)).value == null) {
 		window.alert("Select quanity first.");
 	}
+	else if (document.getElementById("st-quantity" + (productId)).value <= null) {
+		window.alert("Value must be 1, or greater.");
+	}
 	else if (!boolLogedIn) 
 	{
 		window.alert("Please login first");
@@ -163,11 +166,22 @@ function search()
 			if (strName.toUpperCase().includes(document.getElementById("search-button").value.toUpperCase())) 
 			{
 				strSearchResult += '<div class = "st-product">' + dataProducts.value[j].ProductName + '<br>' + Math.floor(dataProducts.value[j].UnitPrice) + '€ <div class = "st-details">' +
-					dataProducts.value[j].QuantityPerUnit + '<input type="number" id="st-quantity' + dataProducts.value[j].ProductID + '"><button onclick ="buy(' + dataProducts.value[j].ProductID + ',' +
+					'<input type="number" id="st-quantity' + dataProducts.value[j].ProductID + '"><button onclick ="buy(' + dataProducts.value[j].ProductID + ',' +
 					dataProducts.value[j].ProductName + ', ' + dataProducts.value[j].UnitPrice + ')">Buy</button></div></div>';
+			}
+		}
+		for (var j = 0; j < arrProducts.length; j+=4) 
+		{
+			strName = arrProducts[j+1];
+			if (strName.toUpperCase().includes(document.getElementById("search-button").value.toUpperCase())) 
+			{
+				strSearchResult += '<div class = "st-product">' +arrProducts[j+1] + '<br>' + Math.floor(arrProducts[j+2]) + '€ <div class = "st-details">' +
+					'<input type="number" id="st-quantity' + arrProducts[j] + '"><button onclick ="buy(' + arrProducts[j] + ',' +
+					arrProducts[j+1] + ', ' + arrProducts[j+2] + ')">Buy</button></div></div>';
 			}
 			document.getElementById("st-content").innerHTML = strSearchResult;
 		}
+		
 	}
 }
 
@@ -432,14 +446,14 @@ function start()
 								if (i == dataProducts.value[j].CategoryID) 
 								{
 									arrCategories[i] += "<div class = 'st-product'>" + dataProducts.value[j].ProductName + "<br>" + Math.floor(dataProducts.value[j].UnitPrice) + "€ <div class = 'st-details'>" +
-										dataProducts.value[j].QuantityPerUnit + "<input type='number' id='st-quantity" + dataProducts.value[j].ProductID + "'><button data-product-id=" + dataProducts.value[j].ProductID + " data-product-name=\"" +
+									 "<input type='number' id='st-quantity" + dataProducts.value[j].ProductID + "'><button data-product-id=" + dataProducts.value[j].ProductID + " data-product-name=\"" +
 										dataProducts.value[j].ProductName + "\" data-unit-price=" + dataProducts.value[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
 								}
 
 								if (boolDoOnce) 
 								{
 									strContent += "<div class = 'st-product'>" + dataProducts.value[j].ProductName + "<br>" + Math.floor(dataProducts.value[j].UnitPrice) + "€ <div class = 'st-details'>" +
-										dataProducts.value[j].QuantityPerUnit + "<input type='number' id='st-quantity" + dataProducts.value[j].ProductID + "'><button data-product-id=" + dataProducts.value[j].ProductID + " data-product-name=\"" +
+									 "<input type='number' id='st-quantity" + dataProducts.value[j].ProductID + "'><button data-product-id=" + dataProducts.value[j].ProductID + " data-product-name=\"" +
 										dataProducts.value[j].ProductName + "\" data-unit-price=" + dataProducts.value[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
 								}
 							}
