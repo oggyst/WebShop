@@ -24,17 +24,17 @@ function buy(element)
 		arrBoughtProducts[arrBoughtProducts.length] = productName;
 		arrBoughtProducts[arrBoughtProducts.length] = unitPrice;
 		arrBoughtProducts[arrBoughtProducts.length] = document.getElementById("st-quantity" + (productId)).value;
-		window.alert("You sucessfully added product to cart.");
+		toast("You sucessfully added product to cart.");
 	}
 	else if (document.getElementById("st-quantity" + (productId)).value == null) {
-		window.alert("Select quanity first.");
+		toast("Select quanity first.");
 	}
 	else if (document.getElementById("st-quantity" + (productId)).value <= null) {
-		window.alert("Value must be 1, or greater.");
+		toast("Value must be 1, or greater.");
 	}
 	else if (!boolLogedIn) 
 	{
-		window.alert("Please login first");
+		toast("Please login first");
 	}
 	localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
 
@@ -52,6 +52,7 @@ function remove(x)
 		}
 	}
 	arrBoughtProducts = arrTemporary;
+	toast("You sucesfully removed product.");
 	if (arrBoughtProducts.length == 1 && arrBoughtProducts[0] == 0) 
 	{
 		arrBoughtProducts = [];
@@ -68,7 +69,7 @@ function shopingCart()
 {
 	if (intUserID == null) 
 	{
-		window.alert("Please log in first.");
+		toast("Please log in first.");
 	}
 	else {
 		let intTotalProduct, intTotalCart = 0;
@@ -80,7 +81,7 @@ function shopingCart()
 			{
 				intTotalProduct = arrBoughtProducts[i + 2] * arrBoughtProducts[i + 3];
 				strShopingCart += '<div class = "st-product">' + arrBoughtProducts[i + 1] + '</br>' + Math.floor(arrBoughtProducts[i + 3]) + ' units, total: ' + Math.floor(intTotalProduct) +
-					'</br> <button id = "st-remove" onclick ="remove(' + i + ')">Remove</button> </div>';
+					'€</br> <button id = "st-remove" onclick ="remove(' + i + ')">Remove</button> </div>';
 			}
 			intTotalCart += intTotalProduct;
 		}
@@ -91,7 +92,7 @@ function shopingCart()
 			document.getElementById("st-content").innerHTML = (strShopingCart);
 		} else if (intUserID != null) 
 		{
-			window.alert("You haven't add anything to your cart");
+			toast("You haven't add anything to your cart");
 		}
 	}
 }
@@ -113,43 +114,45 @@ function onChange(x)
 
 function closeForm() 
 {
-	document.getElementById("st-login-form").style.display = "none";
+	document.getElementById("st-with-user").style.display = "none";
 }
 
 function login() 
 {
-	if (document.getElementById("st-login-form").style.display == "block") {
+	if (document.getElementById("st-with-user").style.display == "block") {
 		closeForm();
 	} else 
 	{
-		document.getElementById("st-login-form").style.display = "block";
+		document.getElementById("st-with-user").style.display = "block";
 	}
 }
-
+function toast(message)
+{
+	var x = document.getElementById("st-toast");
+	x.className = "show";
+	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	document.getElementById("st-toast").innerHTML = message;
+}
 function logOut() 
 {
 	strChossenUser = "";
 	intUserID = null;
 	boolLogedIn = false;
 	deleteCookie();
-	document.getElementById("st-name").innerHTML = ("Account");
-	if (document.getElementById("st-login-form").style.display == "block") 
-	{
-		closeForm();
-	} else 
-	{
-		document.getElementById("st-login-form").style.display = "block";
-	}
-	document.getElementById("st-no-user").style.display = "block";
-	document.getElementById("st-with-user").style.display = "none";
 	goBack();
+	document.getElementById("st-loged-in").style.display = "none";
+	toast("You sucessfully loged out");
+	document.getElementById("st-modal-login").style.display = "block";
+
+
 }
 
 function info() 
 {
-	window.alert(strChossenUser);
+	toast(strChossenUser);
 	closeForm();
 }
+// ovde ubaciti toast
 
 function search()
 {
@@ -158,6 +161,8 @@ function search()
 		document.getElementById("st-content").innerHTML = arrCategories[intChossenCategorie];
 	} else 
 	{
+		
+	console.log("aktivated");
 		let strSearchResult = '';
 		let strName = "";
 		for (var j = 0; j < dataProducts.value.length; j++) 
@@ -179,8 +184,8 @@ function search()
 					'<input type="number" id="st-quantity' + arrProducts[j] + '"><button onclick ="buy(' + arrProducts[j] + ',' +
 					arrProducts[j+1] + ', ' + arrProducts[j+2] + ')">Buy</button></div></div>';
 			}
-			document.getElementById("st-content").innerHTML = strSearchResult;
 		}
+		document.getElementById("st-content").innerHTML = strSearchResult;
 		
 	}
 }
@@ -196,11 +201,15 @@ function checkInfo()
 
 			if (intUserID != null) 
 			{
-				document.getElementById("st-name").innerHTML = ('Welcome ' + data.value[intUserID].FirstName);
+				document.getElementById("st-user").innerHTML = ('Welcome ' + data.value[intUserID].FirstName);
 				strChossenUser = "";
 				strChossenUser += 'From ' + data.value[intUserID].Address;
 				strChossenUser += ' , ' + data.value[intUserID].Country + ' , ';
 				strChossenUser += data.value[intUserID].City;
+				document.getElementById("st-user").innerHTML = ("Welcome " + data.value[intUserID].FirstName) ;
+				document.getElementById("st-close-modal").click();
+				document.getElementById("st-modal-login").style.display = "none";
+				document.getElementById("st-loged-in").style.display = "block";
 				boolLogedIn = true;
 			} else 
 			{
@@ -209,29 +218,26 @@ function checkInfo()
 					if (data.value[i].FirstName === strUsername && data.value[i].LastName == strSecondName) 
 					{
 						boolLogedIn = true;
-						document.getElementById("st-name").innerHTML = ('Welcome ' + data.value[i].FirstName);
+						document.getElementById("st-user").innerHTML = ("Welcome " + data.value[i].FirstName) ;
+						document.getElementById("st-close-modal").click();
+						document.getElementById("st-modal-login").style.display = "none";
+						document.getElementById("st-loged-in").style.display = "block";
+						document.getElementById("st-user").innerHTML = ('Welcome ' + data.value[i].FirstName);
 						intUserID = i;
 						strChossenUser = "";
 						strChossenUser += 'From ' + data.value[i].Address;
 						strChossenUser += ' , ' + data.value[i].Country + ' , ';
 						strChossenUser += data.value[i].City;
-						login();
 					}
 				}
-				if (document.getElementById("st-loged-in").checked) 
+				if (document.getElementById("st-keep-loged-in").checked) 
 				{
 					setCookie();
 				}
 			}
 			if (!boolLogedIn)
 			{
-				document.getElementById("st-incorrect").innerHTML = ("Wrong credentials");
-			}
-			else 
-			{
-
-				document.getElementById("st-no-user").style.display = "none";
-				document.getElementById("st-with-user").style.display = "block";
+				document.getElementById("st-incorrect-credentials").innerHTML = ("Wrong credentials");
 			}
 		});
 }
@@ -297,7 +303,7 @@ function addProduct()
 	let intCost = document.getElementById("price").value;
 	if (strProductName == "" || intCost == 0) 
 	{
-		window.alert("Insert all values");
+		toast("Insert all values");
 	} else 
 	{
 		if (arrProducts.length == 0) 
@@ -334,7 +340,7 @@ function update()
 	{
 		for (var i = 0; i < arrProducts.length; i += 4) 
 		{
-			arrCategories[i + 3] += "<div class = 'st-product'>" + arrProducts[i + 1] + "<br>" + Math.floor(arrProducts[i + 2]) + "€ <div class = 'st-details'><input type='number' id='st-quantity"
+			arrCategories[arrProducts[i+3]] += "<div class = 'st-product'>" + arrProducts[i + 1] + "<br>" + Math.floor(arrProducts[i + 2]) + "€ <div class = 'st-details'><input type='number' id='st-quantity"
 				+ arrProducts[i] + "'><button data-product-id=" + arrProducts[i] + " data-product-name=\"" +
 				arrProducts[i + 1] + "\" data-unit-price=" + arrProducts[i + 2] + " onclick='buy(this)'>Buy</button></div></div>";
 			arrCategories[0] += "<div class = 'st-product'>" + arrProducts[i + 1] + "<br>" + Math.floor(arrProducts[i + 2]) + "€ <div class = 'st-details'><input type='number' id='st-quantity"
@@ -368,6 +374,7 @@ function removeProduct()
 	arrRemoveProduct[arrRemoveProduct.length] = "</select>";
 	document.getElementById("st-categories").style.display = "none";
 	document.getElementById("st-content").innerHTML = "Chosse item you wanna remove:" + arrRemoveProduct + '<button type = "button" onclick = "deleteProduct()"> Remove </button><input type = "button" value ="Return" class = "st-add" onclick="goBack()">';
+
 }
 
 function deleteProduct() 
@@ -486,12 +493,6 @@ function start()
 		{
 			console.log(error);
 		});
-	if (!boolLogedIn) 
-	{
-		document.getElementById("st-with-user").style.display = "none";
-	} else 
-	{
-		document.getElementById("st-no-user").style.display = "none"
-	}
+	
 	boolPageLoaded = true;
 }

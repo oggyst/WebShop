@@ -61,6 +61,7 @@ body div.st-header-holder div.st-header div.st-search {
   max-width: 750px;
   width: calc(100% - 350px);
   height: 100px;
+  min-width: 250px;
 }
 
 body div.st-header-holder div.st-header div.st-search input {
@@ -83,99 +84,31 @@ body div.st-header-holder div.st-header div.st-search input:focus {
   border-color: #0099e6;
 }
 
-body div.st-header-holder div.st-header div.st-right-header {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  float: right;
-  width: 250px;
-  position: relative;
+body div.st-header-holder div.st-header div#st-loged-in {
+  float: left;
+  padding: 26px 0px;
+  display: none;
+  cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
 }
 
-body div.st-header-holder div.st-header div.st-right-header #st-login-form {
+body div.st-header-holder div.st-header div#st-with-user {
   display: none;
-  position: absolute;
-  top: 65px;
-  background-color: #E5E7E6;
-  width: 200px;
-  padding: 20px;
-  z-index: 2;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
 }
 
-body div.st-header-holder div.st-header div.st-right-header #st-login-form h1 {
-  margin: 5px 0;
+body div.st-header-holder div.st-header i {
+  margin-left: 20px;
 }
 
-body div.st-header-holder div.st-header div.st-right-header #st-login-form label {
-  width: 100%;
-}
-
-body div.st-header-holder div.st-header div.st-right-header #st-login-form input {
-  width: 100%;
-  margin: 5px 0;
-}
-
-body div.st-header-holder div.st-header div.st-right-header #st-login-form #st-incorrect {
+body div.st-header-holder div.st-header div#modalLoginForm p {
   color: red;
-  margin: 0 0 5px 5px;
 }
 
-body div.st-header-holder div.st-header div.st-right-header #st-login-form button {
-  color: white;
-  padding: 5px;
-  width: 48%;
-  opacity: 0.8;
-}
-
-body div.st-header-holder div.st-header div.st-right-header #st-login-form button:hover {
-  opacity: 1;
-}
-
-body div.st-header-holder div.st-header div.st-right-header #st-login-form button.st-login {
-  background-color: #76cc4e;
-}
-
-body div.st-header-holder div.st-header div.st-right-header #st-login-form button.st-cancel {
-  background-color: red;
-}
-
-body div.st-header-holder div.st-header div.st-right-header #st-login-form #st-loged-in {
-  width: 50px;
-}
-
-body div.st-header-holder div.st-header div.st-right-header span.st-account {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 100px;
-  height: 100px;
-  float: left;
-  width: 200px;
-  text-align: center;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-body div.st-header-holder div.st-header div.st-right-header span.st-account:hover {
-  background-color: #e0e0e0;
-}
-
-body div.st-header-holder div.st-header div.st-right-header i {
-  font-size: 20px;
-  float: right;
-  width: 50px;
-  text-align: center;
-  line-height: 100px;
-  cursor: pointer;
-}
-
-body div.st-header-holder div.st-header div.st-right-header i:hover {
-  background-color: #e0e0e0;
+body div.st-header-holder div.st-header #st-login-modal {
+  margin-top: 18px;
 }
 
 body #st-select {
@@ -270,7 +203,7 @@ body #st-content div.st-back {
 }
 
 body #st-content div.st-product {
-  width: calc(100% - 20px);
+  width: 100%;
   padding: 15px 8px;
   border: 2px solid #e0e0e0;
   border-radius: 5px;
@@ -322,5 +255,70 @@ body #st-content .st-new-product input.st-add {
 
 body #st-content .st-new-product input.st-add:hover {
   opacity: 1;
+}
+
+body #st-toast {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+}
+
+body #st-toast.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
 /*# sourceMappingURL=styles.css.map */

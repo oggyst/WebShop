@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PC shop</title>
-    <script src="./js/script.js"></script>
-    <script src="https://kit.fontawesome.com/3d110c4fdd.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="./scss/styles.css">
 </head>
 
@@ -20,39 +20,76 @@
                     <input type="button" value="Add product" onclick="addProductMenu()">
                     <input type="button" value="remove product" onclick="removeProduct()">
                 </div>
-
             </div>
             <div class="st-search">
                 <input type="text" class="st-search" id="search-button" oninput="search()" placeholder="Search">
             </div>
-            <div class="st-right-header">
-                <div class="st-login">
-                    <span id="st-name" class="st-account" onclick="login()">Account</span>
-                    <div id="st-login-form">
-                        <div id="st-no-user">
-                            <h1> Log in</h1>
-                            <label><b>Username</b></label>
-                            <input id="username" type="text" placeholder="&nbsp;&nbsp;Enter username" required>
 
-                            <label><b>Last name</b></label>
-                            <input id="secondName" type="text" placeholder="&nbsp;&nbsp;Enter last name" required>
-                            <p id="st-incorrect"></p>
-                            <button type="submit" class="st-login" onclick="checkInfo()">Login</button>
-                            <button type="button" class="st-cancel" onclick="closeForm()">Close</button>
-                            <input type="checkbox" id="st-loged-in" value="stayLogedIn">
-                            <span>Keep me loged in </span> <br>
-                        </div>
-                        <div id="st-with-user">
-                            <input type="button" value="Profile" onclick="info()">
-                            <input type="button" value="log out" onclick="logOut()"></div>
-                    </div>
-                </div>
-                <i class="fas fa-shopping-cart" onclick="shopingCart()"></i>
+            <div id="st-loged-in">
+                <span id="st-user" onclick=(login())></span>
+                <i class="fas fa-shopping-cart" onclick=(shopingCart())></i>
+                <div id="st-with-user">
+                    <input type="button" value="Profile" onclick="info()">
+                    <input type="button" value="log out" onclick="logOut()"></div>
             </div>
         </div>
+
+
+        <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                        <button id="st-close-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="md-form mb-5">
+                            <input type="name" id="username" class="form-control validate"
+                                placeholder="Your first name: " required>
+                        </div>
+
+                        <div class="md-form mb-4">
+                            <input type="name" id="secondName" class="form-control validate"
+                                placeholder="Your last name" required>
+                        </div>
+                        <p id="st-incorrect-credentials"></p>
+
+                        <input type="checkbox" id="st-keep-loged-in" value="stayLogedIn">
+                        <span>Keep me loged in </span> <br>
+
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn btn-login" onclick="checkInfo()">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="st-modal-login" class="text-center">
+            <a id="st-login-modal" href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal"
+                data-target="#modalLoginForm">Log in</a>
+        </div>
+    </div>
+    <!-- header kraj -->
     </div>
     <div id="st-select"></div>
     <div id="st-content"></div>
+    <div id="st-toast"></div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="./js/script.js"></script>
+    <script src="https://kit.fontawesome.com/3d110c4fdd.js"></script>
 
 </body>
 

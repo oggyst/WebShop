@@ -1,5 +1,4 @@
 @import "colors.scss";
-
 @import "mixins.scss";
 body
 {
@@ -60,6 +59,7 @@ body
         max-width: 750px;
         width:calc(100% - 350px);
         height:100px;
+        min-width: 250px;
         input 
         {
           height:30px;
@@ -82,95 +82,34 @@ body
         }
         
       }
-      div.st-right-header
+      div#st-loged-in
       {
-        width: fit-content;
-        float:right;
-        width:250px;
-        position:relative;
+        float:left;
+        padding: 26px 0px;
+        display:none;
+        cursor:pointer;
         user-select: none;
-        #st-login-form
+      }
+      div#st-with-user
+      {
+        display:none;
+      }
+      i
+      {
+        margin-left:20px;
+      }
+      div#modalLoginForm
+      //modal form za login
+      {
+      
+        p
         {
-          display:none;
-          position:absolute;
-          top:65px;
-          background-color: $gray;
-          width:200px;
-          padding:20px;
-          z-index:2;
-          border-bottom-left-radius: 5px;
-          border-bottom-right-radius: 5px;
-          h1 
-          {
-            margin: 5px 0;
-          }
-            label
-            {
-              width:100%;
-            }
-            input
-            {
-              width:100%;
-              margin: 5px 0;
-            }
-            #st-incorrect
-            {
-              color:red;
-              margin: 0 0 5px 5px;
-            }
-            button
-            {
-              color:white;
-              padding:5px;
-              width:48%;
-              opacity:0.8;
-              &:hover
-              {
-                opacity: 1;
-              }
-            }
-            button.st-login
-            {
-              background-color:$green;
-            }
-            button.st-cancel
-            {
-              background-color:red;
-            }
-            #st-loged-in
-            {
-              width:50px;
-            }
+          color:red;
         }
-        span.st-account
-        {
-          font-size:20px;
-          font-weight: 700;
-          line-height:100px;
-          height:100px;
-          float:left;
-          width:200px;
-          text-align: center;
-          border-radius:10px;
-          cursor:pointer;
-          &:hover
-          {
-            background-color:$border-gray;
-          }
-        }
-        i
-        {
-          font-size:20px;
-          float:right;
-          width:50px;
-          text-align:center;
-          line-height: 100px;
-          cursor:pointer;
-          &:hover
-          {
-            background-color:$border-gray;
-          }
-        }
+      }
+      #st-login-modal
+      {
+        margin-top:18px;
       }
     }
   }
@@ -242,7 +181,7 @@ body
     }
     div.st-product
     {
-      width:calc(100% - 20px);
+      width:100%;
       padding:15px 8px;
       border: 2px solid $border-gray;
       border-radius:5px;
@@ -295,5 +234,8 @@ body
         }
       }
     }
+  }
+  #st-toast {
+    @include toast-style();
   }
 }
