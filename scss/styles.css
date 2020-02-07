@@ -25,6 +25,11 @@ body div.st-header-holder div.st-header {
   }
 }
 
+body div.st-header-holder div.st-header div.text-center {
+  position: absolute;
+  left: -20px;
+}
+
 body div.st-header-holder div.st-header div.st-logo-holder {
   position: relative;
 }
@@ -62,6 +67,7 @@ body div.st-header-holder div.st-header div.st-search {
   width: calc(100% - 350px);
   height: 100px;
   min-width: 250px;
+  margin-left: 85px;
 }
 
 body div.st-header-holder div.st-header div.st-search input {

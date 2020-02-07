@@ -22,6 +22,11 @@ body
         margin: 0px 15px;
         width: calc(100% - 30px);
       }
+      div.text-center
+      {
+        position:absolute;
+        left:-20px;
+      }
       div.st-logo-holder
       {
         position:relative;
@@ -60,6 +65,7 @@ body
         width:calc(100% - 350px);
         height:100px;
         min-width: 250px;
+        margin-left:85px;
         input 
         {
           height:30px;

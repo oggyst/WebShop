@@ -277,19 +277,10 @@ function deleteCookie()
 	document.cookie = "username=" + intUserID + ";" + expires + ";path=/";
 }
 
-function dropMenu() 
-{
-	if (document.getElementById("st-drop-menu").style.display == "block") {
-		document.getElementById("st-drop-menu").style.display = "none";
-	} else 
-	{
-		document.getElementById("st-drop-menu").style.display = "block";
-	}
-}
+
 
 function addProductMenu() 
 {
-	dropMenu();
 	for (var i = 0; i < arrCategories.length; i++);
 	boolAddingNew = true;
 	document.getElementById("st-select").innerHTML = '';
@@ -299,8 +290,8 @@ function addProductMenu()
 }
 function addProduct() 
 {
-	let strProductName = document.getElementById("product-name").value;
-	let intCost = document.getElementById("price").value;
+	let strProductName = document.getElementById("st-new-product-name").value;
+	let intCost = document.getElementById("st-new-product-price").value;
 	if (strProductName == "" || intCost == 0) 
 	{
 		toast("Insert all values");
@@ -359,8 +350,6 @@ function removeProduct()
 {
 
 	let arrRemoveProduct = [];
-	dropMenu();
-
 	arrRemoveProduct[0] = '<select id = "removeMenu">';
 	for (var i = 0; i < dataProducts.value.length; i++) 
 	{
@@ -372,14 +361,15 @@ function removeProduct()
 		arrRemoveProduct[arrProducts[i]] = '<option  value = ' + arrProducts[i] + '>' + arrProducts[i + 1] + '</option>';
 	}
 	arrRemoveProduct[arrRemoveProduct.length] = "</select>";
-	document.getElementById("st-categories").style.display = "none";
-	document.getElementById("st-content").innerHTML = "Chosse item you wanna remove:" + arrRemoveProduct + '<button type = "button" onclick = "deleteProduct()"> Remove </button><input type = "button" value ="Return" class = "st-add" onclick="goBack()">';
+	console.log(arrRemoveProduct);
+	document.getElementById("st-products").innerHTML = arrRemoveProduct;
+	
 
 }
 
 function deleteProduct() 
 {
-	let idToRemove = document.getElementById('removeMenu').value;
+	let idToRemove = document.getElementById('st-products').value;
 	if (idToRemove < dataProducts.value.length) 
 	{
 		for (i = 0; i < dataProducts.value.length; i++) 
@@ -468,6 +458,8 @@ function start()
 						arrCategories[0] = strContent;
 						boolDoOnce = false;
 					}
+					document.getElementById("st-categories").innerHTML = strCategories;
+					removeProduct();
 					if(!boolLogedIn)
 					{
 					intUserID = getCookie();

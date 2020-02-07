@@ -15,11 +15,112 @@
     <div class="st-header-holder">
         <div class="st-header">
             <div class="st-logo-holder">
-                <img src="./img/logo.jpg" alt="" onclick="dropMenu()">
-                <div id="st-drop-menu">
-                    <input type="button" value="Add product" onclick="addProductMenu()">
-                    <input type="button" value="remove product" onclick="removeProduct()">
+
+                <div class="text-center">
+
+                    <a href="" id="st-product-manipulation" class="btn btn-default btn-rounded mb-4" data-toggle="modal"
+                        data-target="#product-manipulate"> 
                 </div>
+
+                <!--Modal: Login / Register Form-->
+                <div class="modal fade" id="modalLRForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog cascading-modal" role="document">
+                        <!--Content-->
+                        <div class="modal-content">
+
+                            <!--Modal cascading tabs-->
+                            <div class="modal-c-tabs">
+
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs md-tabs tabs-2 light-blue darken-3" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#panel7" role="tab">Add product</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#panel8" role="tab">Remove product</a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab panels -->
+                                <div class="tab-content">
+                                    <!--Panel 7-->
+                                    <div class="tab-pane fade in show active" id="panel7" role="tabpanel">
+
+                                        <!--Body-->
+                                        <div class="modal-body mb-1">
+                                            <div class="md-form form-sm mb-5">
+                                                <input type="email" placeholder = "Insert product name:" id="st-new-product-name"
+                                                    class="form-control form-control-sm validate">
+                                            </div>
+
+                                            <div class="md-form form-sm mb-4">
+                                                <input type="number"
+                                                    class="form-control form-control-sm validate" placeholder ="Unit price:" id = "st-new-product-price">
+                                          
+                                            </div>
+                                            <div class="md-form form-sm mb-4">
+                                                <select placeholder = "Select category" id = "st-categories">
+                                                    </select>
+                                          
+                                            </div>
+                                           
+                                        </div>
+                                        <!--Footer-->
+                                        <div class="modal-footer">
+                                            <div class="text-center mt-0" style = "margin-left:35px;">
+                                                <button class="btn btn-info" onclick="addProduct()">Add product </button>
+                                            </div>
+                                            <button type="button" class="btn btn-outline-info waves-effect ml-auto"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+
+                                    </div>
+                                    <!--/.Panel 7-->
+
+                                    <!--Panel 8-->
+                                    <div class="tab-pane fade" id="panel8" role="tabpanel">
+
+                                        <!--Body-->
+                                        <div class="modal-body">
+                                            
+                                            <div class="md-form form-sm mb-4">
+                                                <select placeholder = "Select category" id = "st-products">
+                                                    </select>
+                                          
+                                            </div>
+
+                                           
+
+                                        </div>
+                                        <!--Footer-->
+                                        <div class="modal-footer">
+                                            <div class="text-center form-sm mt-0">
+                                                <button class="btn btn-info" onclick="deleteProduct()" style = "margin-left:35px;">Remove product</button>
+                                            </div>
+                                            <button type="button" class="btn btn-outline-info waves-effect ml-auto"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    <!--/.Panel 8-->
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--/.Content-->
+                    </div>
+                </div>
+                <!--Modal: Login / Register Form-->
+
+                <div class="text-center">
+                    <a href="" class="btn btn-default btn-rounded my-3" data-toggle="modal"
+                        data-target="#modalLRForm">
+                        <img src="./img/logo.jpg" alt=""></a>
+                </div>
+
+
+
+
             </div>
             <div class="st-search">
                 <input type="text" class="st-search" id="search-button" oninput="search()" placeholder="Search">
