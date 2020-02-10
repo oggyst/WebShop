@@ -2,6 +2,7 @@
 @import "mixins.scss";
 body
 {
+  min-width: 450px;
   button
   {
     cursor:pointer;
@@ -104,19 +105,33 @@ body
       {
         margin-left:20px;
       }
-      div#modalLoginForm
-      //modal form za login
+      a
       {
-      
-        p
-        {
-          color:red;
-        }
+        padding: 0px;
+        margin-top:25px;
       }
-      #st-login-modal
+    }
+    #st-modal-login
+    {
+      width:100%;
+      max-width: 1100px;
+      margin:0px auto;
+            position:relative;
+    }
+    a
+    {
+      float:right;
+      margin-top:20px;
+      &:focus
       {
-        margin-top:18px;
+        border: 0px;
+        outline:none;
+        box-shadow: none;
       }
+    }
+    p#st-incorrect-credentials
+    {
+      color:red;
     }
   }
   #st-select
