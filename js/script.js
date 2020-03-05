@@ -134,14 +134,6 @@ function search()
 	}
 }
 
-$(".st-buy-button").keypress(function(event)
-{
-    if(event.which == 13)
-    {
-        console.log("qwerty");
-        console.log(this);
-    }
-});
 
 $( "#username" ).keypress(function( event ) 
 {
@@ -249,13 +241,9 @@ function onPageLoad() {
             intUserID = getCookie();
             if(intUserID != "")
             {
-                console.log("getCookie()");
                 checkLogInCredentials();
                 console.log(intUserID);
-            } else
-            {
-                console.log("wtf"); 
-            }
+            } 
         });
     });
 }
