@@ -30,9 +30,62 @@ body div.loader .loader {
   }
 }
 
+body div.container img {
+  height: 60px;
+  width: 60px;
+}
+
 body div.container button.btn-secondary {
   border: none;
   margin-top: 2px;
+}
+
+body div.container div.st-account {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto auto;
+      grid-template-columns: auto auto;
+}
+
+body div.container div.st-account button.st-withUser {
+  position: relative;
+  display: inline-block;
+  width: 160px;
+  padding-left: 15px;
+  font-size: 16px;
+}
+
+body div.container div.st-account .dropdown-content {
+  display: none;
+  position: absolute;
+  top: 60px;
+  width: 145px;
+  left: 0px;
+  background-color: #343A40;
+  min-width: 160px;
+  -webkit-box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+body div.container div.st-account .dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+body div.container div.st-account .dropdown-content a:hover {
+  background-color: #1D2124;
+}
+
+body div.container div.st-account .dropdown:hover .dropdown-content {
+  display: block;
+}
+
+body div.container div.st-account button.st-cart {
+  font-size: 30px;
+  color: white;
 }
 
 body div.st-categories select.form-control {
@@ -111,6 +164,10 @@ body div.st-content div.st-product {
   border: 1px solid black;
   border-radius: 5px;
   padding: 5px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   height: 100%;
 }
 
@@ -125,5 +182,81 @@ body div.st-content div.st-image {
 body div.st-content div.st-image img {
   margin: 0px auto;
   display: block;
+}
+
+body div.st-content img.st-empty {
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  grid-column-end: 4;
+  margin: 0px auto;
+}
+
+body #st-toast {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+}
+
+body #st-toast.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+body p#st-incorrect-credentials {
+  color: red;
 }
 /*# sourceMappingURL=styles.css.map */
