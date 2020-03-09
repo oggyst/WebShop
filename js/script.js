@@ -192,62 +192,106 @@ function toast(message, time)
 
 function fetchData() 
 {
-    $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json", function (data) {
-        console.log(data.value);
+    $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json", function (data) 
+    {
+        categories = data.value;
     });
-    $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json", function (data) {
+    $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json", function (data) 
+    {
         products = data.value;
 
     });
 }
 function onPageLoad() 
 {
-    $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json", function (data) {
-        categories = data.value;
-        $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json", function (data) {
-            products = data.value;
-            for (var i = 0; i < categories.length; i++) 
+    for (var i = 0; i < categories.length; i++) 
+    {
+        strCategories += '<option value ="' + categories[i].CategoryID + '">' + categories[i].CategoryName + '</option>';
+        arrCategories[i + 1] = "";
+        for (var j = 0; j < products.length; j++) 
+        {
+            if (products[j] != null)
             {
-                strCategories += '<option value ="' + categories[i].CategoryID + '">' + categories[i].CategoryName + '</option>';
-                arrCategories[i + 1] = "";
-                for (var j = 0; j < products.length; j++) 
+                if (i + 1 == products[j].CategoryID) 
                 {
-                    if (products[j] != null)
-                    {
-                        if (i + 1 == products[j].CategoryID) 
-                        {
-                            arrCategories[products[j].CategoryID] += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg><br></div>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
-                                "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=\"" +
-                                products[j].ProductName + "\" data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
-                        }
-                        if (boolDoOnce) 
-                        {
-                            strContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
-                                "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=" +
-                                products[j].ProductName + " data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
-                        }
-                    }
+                    arrCategories[products[j].CategoryID] += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg><br></div>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
+                        "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=\"" +
+                        products[j].ProductName + "\" data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
                 }
-                boolDoOnce = false;
-            }
-            for (var i = 0; i < arrCategories.length; i++)
-            {
-                if (arrCategories[i] == "") 
+                if (boolDoOnce) 
                 {
-                    arrCategories[i] = "<img class = 'st-empty' src = './img/empty.jpg'>";
+                    strContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
+                        "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=" +
+                        products[j].ProductName + " data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
                 }
             }
-            strCategories += "</select>";
-            arrCategories[0] = strContent;
-            intChossenCategorie = 0;
-            $('div.st-categories').html(strCategories);
-            $('div.st-content').html(strContent);
-            intUserID = getCookie();
-            if (intUserID != "") 
-            {
-                checkLogInCredentials();
-                console.log(intUserID);
-            }
-        });
-    });
+        }
+        boolDoOnce = false;
+    }
+    for (var i = 0; i < arrCategories.length; i++)
+    {
+        if (arrCategories[i] == "") 
+        {
+            arrCategories[i] = "<img class = 'st-empty' src = './img/empty.jpg'>";
+        }
+    }
+    strCategories += "</select>";
+    arrCategories[0] = strContent;
+    intChossenCategorie = 0;
+    $('div.st-categories').html(strCategories);
+    $('div.st-content').html(strContent);
+    intUserID = getCookie();
+    if (intUserID != "") 
+    {
+        checkLogInCredentials();
+        console.log(intUserID);
+    }
+    // $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json", function (data) {
+    //     categories = data.value;
+    //     $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json", function (data) {
+    //         products = data.value;
+    //         for (var i = 0; i < categories.length; i++) 
+    //         {
+    //             strCategories += '<option value ="' + categories[i].CategoryID + '">' + categories[i].CategoryName + '</option>';
+    //             arrCategories[i + 1] = "";
+    //             for (var j = 0; j < products.length; j++) 
+    //             {
+    //                 if (products[j] != null)
+    //                 {
+    //                     if (i + 1 == products[j].CategoryID) 
+    //                     {
+    //                         arrCategories[products[j].CategoryID] += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg><br></div>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
+    //                             "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=\"" +
+    //                             products[j].ProductName + "\" data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
+    //                     }
+    //                     if (boolDoOnce) 
+    //                     {
+    //                         strContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
+    //                             "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=" +
+    //                             products[j].ProductName + " data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
+    //                     }
+    //                 }
+    //             }
+    //             boolDoOnce = false;
+    //         }
+    //         for (var i = 0; i < arrCategories.length; i++)
+    //         {
+    //             if (arrCategories[i] == "") 
+    //             {
+    //                 arrCategories[i] = "<img class = 'st-empty' src = './img/empty.jpg'>";
+    //             }
+    //         }
+    //         strCategories += "</select>";
+    //         arrCategories[0] = strContent;
+    //         intChossenCategorie = 0;
+    //         $('div.st-categories').html(strCategories);
+    //         $('div.st-content').html(strContent);
+    //         intUserID = getCookie();
+    //         if (intUserID != "") 
+    //         {
+    //             checkLogInCredentials();
+    //             console.log(intUserID);
+    //         }
+    //     });
+    // });
 }
