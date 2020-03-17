@@ -1,98 +1,201 @@
-let strCategories = "<select onchange ='onCategoryChange(this)' class='form-control'><option value = '0'> All categories </option>";
+let strCategories;
 let arrCategories = [];
+let arrEmployees;
+let arrBoughtProducts = [[[]]];
 let intUserID;
 let boolLogedIn = false;
 let intChossenCategorie;
-let strContent = "";
+let strContent;
+let strAdminContent = "";
 let products;
 let categories;
+let totalPrice = 0;
 boolDoOnce = true;
+function deleteProduct(elementIndex)
+{
+    products.splice(elementIndex, 1);
+    boolDoOnce = true;
+    onPageLoad();
+}
+function addNewProductMenu()
+{
+    $("select#st-categories").html("<select onchange ='onCategoryChange(this)' class='form-control'>" + strCategories);
+    $("#modalAddProductForm").modal('show');
+}
+function addProduct(categories)
+{
+    let productName = $("#productName").val();
+    let price = $("#price").val();
+   if (productName == "" || price == "")
+   {
+       window.alert("Not all fields completed");
+   } else 
+   {
+        let categorie = $("#st-categories").val();
+        let index = products.length;
+        let tempArray = {
+            ProductID:index,
+            ProductName:productName,
+            UnitPrice:price,
+            CategoryID:categorie
+        };
+        products.push(tempArray);
+        onPageLoad();
+        $("#modalAddProductForm").modal('hide');
+        toast("Product added sucessfully.");
+    }
+
+}
+function removeFromCart (element)
+{
+    let quantity = $("#st-quantity" + element.dataset.productId).val();
+    if (arrBoughtProducts[intUserID][element.dataset.productId-1] < quantity)
+    {
+        toast ("You can't remove more than you have in cart.", 5000);
+    } else
+    {
+        arrBoughtProducts[intUserID][element.dataset.productId-1] = parseInt(arrBoughtProducts[intUserID][element.dataset.productId-1]) - parseInt(quantity);
+        toast ("Sucesfully removed items from shoping cart.");
+        localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
+    } 
+    shoppingCart();
+}
 function onCategoryChange(categoryID) {
     $('div.st-content').html(arrCategories[categoryID.value]);
     intChossenCategorie = categoryID.value;
 }
+function returnToMainPage()
+{
+    $(".st-content").html(strContent);
+    $('div.st-categories').html("<select onchange ='onCategoryChange(this)' class='form-control'><option value = '0'> All categories </option>"  + strCategories);
+    onCategoryChange(0);
+}
+function shoppingCart()
+{
+    let shoppingView = "";
+    for(let i = 0; i < arrBoughtProducts[intUserID].length; i++)
+    {
+    if(arrBoughtProducts[intUserID][i] > 0)
+    {
+        shoppingView += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[i - 1].ProductName + "<br>" + Math.floor(products[i].UnitPrice) + "€ "  + arrBoughtProducts[intUserID][i] + "<div class = 'st-details'>" +
+       "<input type='number' class = 'st-buy-button' min = '1' max = '" + arrBoughtProducts[intUserID][i] + "' id='st-quantity" + products[i].ProductID + "'><button data-product-id=" + products[i].ProductID + " onclick='removeFromCart(this)'>Remove</button></div></div>";
+    }
+    }
+    if (shoppingView == "")
+    {
+        shoppingView = "<img class = 'st-empty-cart' src = './img/empty-cart.png'>"
+    }
+    $(".st-content").html(shoppingView + "<br><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button>");
+}
 
+function buy(element) 
+{
+    let quantity = $("#st-quantity" + element.dataset.productId).val();
+    if (quantity < 1) 
+    {
+        toast("Quantity value can't be lower than 1.", 5000);
+    } else 
+    {
+        
+        if (!$.isNumeric(intUserID)) 
+        {
+            toast("Log in first.", 5000);
+        } else 
+        {
+            if (!$.isNumeric(arrBoughtProducts[intUserID][element.dataset.productId])) 
+            {
+                arrBoughtProducts[intUserID][element.dataset.productId] = 0;
+            }
+            arrBoughtProducts[intUserID][element.dataset.productId] = parseInt(arrBoughtProducts[intUserID][element.dataset.productId]) + parseInt(quantity);
+            localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
+            toast("Sucesfully added " + quantity + "x    " + products[element.dataset.productId - 1].ProductName + " to shoping cart", 5000);
+            totalPrice += Math.floor(products[element.dataset.productId - 1].UnitPrice) * quantity;
+        }
+    }
+}
 function checkLogInCredentials() 
 {
 
     let strUsername = $("#username").val();
     let strSecondName = $("#secondName").val();
-    fetch('https://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json')
-        .then((resp) => resp.json())
-        .then(function (data) {
-            if (intUserID != "") {
-                if (intUserID >= 0) {
-                    boolLogedIn = true;
-                    strChossenUser = "";
-                    strChossenUser += 'From ' + data.value[intUserID].Address;
-                    strChossenUser += ' , ' + data.value[intUserID].Country + ' , ';
-                    strChossenUser += data.value[intUserID].City;
-                    toast("Welcome back " + data.value[intUserID].FirstName, 3000);
-                    $("#modalLoginForm").modal('hide');
-                    $("p#st-incorrect-credentials").html("");
-                    $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown'> " + data.value[intUserID].FirstName + "<br>" + data.value[intUserID].LastName +
-                        "<div class = 'dropdown-content'><a href = '#'> User info </a><a onclick = 'logOut()' href = '#'>Sign out</a></button><button class = 'st-cart btn btn-secondary navbar-dark bg-dark'><i class='fas fa-shopping-cart'></i></button>");
-                } else {
-                    intUserID = -1;
-                    strChossenUser = "You are loged in as page administrator";
-                    boolLogedIn = true;
-                    $("p#st-incorrect-credentials").html("");
-                    $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown'> Welcome <br> admin" +
-                        "<div class = 'dropdown-content'><a href = '#'> User info </a><a onclick = 'logOut()' href = '#'>Sign out</a></button><button class = 'st-cart btn btn-secondary navbar-dark bg-dark'><i class='fas fa-shopping-cart'></i></button>");
-                }
-            } else
-                for (var i = 0; i < data.value.length; i++) 
-                {
-                    if (data.value[i].FirstName === strUsername && data.value[i].LastName == strSecondName) 
-                    {
-                        boolLogedIn = true;
-                        intUserID = i;
-                        strChossenUser = "";
-                        strChossenUser += 'From ' + data.value[i].Address;
-                        strChossenUser += ' , ' + data.value[i].Country + ' , ';
-                        strChossenUser += data.value[i].City;
-                        toast("Welcome back " + strUsername, 3000);
-                        $("#modalLoginForm").modal('hide');
-                        $("p#st-incorrect-credentials").html("");
-                        $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown'> " + data.value[intUserID].FirstName + "<br>" + data.value[intUserID].LastName +
-                            "<div class = 'dropdown-content'><a href = '#'> User info </a><a onclick = 'logOut()' href = '#'>Sign out</a></button><button class = 'st-cart btn btn-secondary navbar-dark bg-dark'><i class='fas fa-shopping-cart'></i></button>");
-                    } else if (strUsername == "admin" && strSecondName == "admin") 
-                    {
-                        intUserID = -1;
-                        strChossenUser = "You are loged in as page administrator";
-                        boolLogedIn = true;
-                        $("#modalLoginForm").modal('hide');
-                        $("p#st-incorrect-credentials").html("");
-                        $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown'> Welcome <br> admin" +
-                            "<div class = 'dropdown-content'><a href = '#'> User info </a><a onclick = 'logOut()' href = '#'>Sign out</a></button><button class = 'st-cart btn btn-secondary navbar-dark bg-dark'><i class='fas fa-shopping-cart'></i></button>");
-                    }
-
-                }
-            if (document.getElementById("st-keep-loged-in").checked) 
+    if (intUserID != "") {
+        if (intUserID >= 0) {
+            boolLogedIn = true;
+            strChossenUser = "";
+            strChossenUser += 'From ' + arrEmployees[intUserID].Address;
+            strChossenUser += ' , ' + arrEmployees[intUserID].Country + ' , ';
+            strChossenUser += arrEmployees[intUserID].City;
+            toast("Welcome back " + arrEmployees[intUserID].FirstName, 3000);
+            $("#modalLoginForm").modal('hide');
+            $("p#st-incorrect-credentials").html("");
+            $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown' onclick='this.blur()'> " + arrEmployees[intUserID].FirstName + "<br>" +arrEmployees[intUserID].LastName +
+                "<div class = 'dropdown-content'><a onclick = 'displayUserInfo()'> User info </a><a onclick = 'logOut()' href = '#'>Sign out</a></button><button class = 'st-cart btn btn-secondary navbar-dark bg-dark' onclick = 'shoppingCart();this.blur()'><i class='fas fa-shopping-cart'></i></button>");
+        } else {
+            strChossenUser = "You are loged in as page administrator";
+            boolLogedIn = true;
+            $('div.st-categories').html("");
+            $('div.st-content').html(strAdminContent);
+            $("p#st-incorrect-credentials").html("");
+            $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown onclick='this.blur()'> Welcome <br> admin" +
+                "<div class = 'dropdown-content'><a onclick = 'displayUserInfo()'> User info </a><a onclick = 'addNewProductMenu()'>Add product</a><a onclick = 'logOut()'>Sign out</a></button>");
+        }
+    } else
+        for (var i = 0; i < arrEmployees.length; i++) 
+        {
+            if (arrEmployees[i].FirstName === strUsername && arrEmployees[i].LastName == strSecondName) 
             {
-                setCookie();
+                boolLogedIn = true;
+                intUserID = i;
+                strChossenUser = "";
+                strChossenUser += 'From ' + arrEmployees[i].Address;
+                strChossenUser += ' , ' + arrEmployees[i].Country + ' , ';
+                strChossenUser += arrEmployees[i].City;
+                toast("Welcome back " + strUsername, 3000);
+                $("#modalLoginForm").modal('hide');
+                $("p#st-incorrect-credentials").html("");
+                $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown onclick='this.blur()'> " + arrEmployees[intUserID].FirstName + "<br>" + arrEmployees[intUserID].LastName +
+                    "<div class = 'dropdown-content'><a onclick = 'displayUserInfo()'> User info </a><a onclick = 'logOut()' href = '#'>Sign out</a></button><button class = 'st-cart btn btn-secondary navbar-dark bg-dark' onclick = 'shoppingCart();this.blur()'><i class='fas fa-shopping-cart'></i></button>");
+            } else if (strUsername == "admin" && strSecondName == "admin") 
+            {
+                intUserID = -1;
+                strChossenUser = "You are loged in as page administrator";
+                boolLogedIn = true;
+                $('div.st-categories').html("");
+                $('div.st-content').html(strAdminContent);
+                $("#modalLoginForm").modal('hide');
+                $("p#st-incorrect-credentials").html("");
+                $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown onclick='this.blur()'> Welcome <br> admin" +
+                    "<div class = 'dropdown-content'><a onclick = 'displayUserInfo()'> User info </a><a onclick = 'addProduct()'> Add product </a><a onclick = 'logOut()'>Sign out</a></button>");
             }
+        }
+    if (document.getElementById("st-keep-loged-in").checked) 
+    {
+        setCookie();
+    }
 
-            if (!boolLogedIn) {
-                if (strUsername == "" && strSecondName != "") 
-                {
-                    $("p#st-incorrect-credentials").html("First name missing");
-                    $("#username").focus();
-                } else if (strUsername != "" && strSecondName == "") 
-                {
-                    $("p#st-incorrect-credentials").html("Second name missing");
-                    $("#secondName").focus();
-                } else if (strUsername == "" && strSecondName == "") 
-                {
-                    $("p#st-incorrect-credentials").html("Fill the fields.");
-                }
-                else 
-                {
-                    $("p#st-incorrect-credentials").html("Wrong credentials");
-                }
-            }
+    if (!boolLogedIn) {
+        if (strUsername == "" && strSecondName != "") 
+        {
+            $("p#st-incorrect-credentials").html("First name missing");
+            $("#username").focus();
+        } else if (strUsername != "" && strSecondName == "") 
+        {
+            $("p#st-incorrect-credentials").html("Second name missing");
+            $("#secondName").focus();
+        } else if (strUsername == "" && strSecondName == "") 
+        {
+            $("p#st-incorrect-credentials").html("Fill the fields.");
+        }
+        else 
+        {
+            $("p#st-incorrect-credentials").html("Wrong credentials");
+        }
+    }
+}
 
-        });
+function displayUserInfo()
+{
+    toast(strChossenUser,5000);
 }
 
 function logOut() 
@@ -101,6 +204,8 @@ function logOut()
     deleteCookie();
     $('div.st-account').html("<button class = 'btn btn-secondary navbar-dark bg-dark' type = 'button' data-toggle='modal' data-target='#modalLoginForm'" +
         "aria-haspopup='true' aria-expanded = 'false'><i class = 'fas fa-user'></i></button>");
+    toast("You sucesfully loged out.",5000);
+    returnToMainPage();
 }
 
 function search() {
@@ -119,8 +224,7 @@ function search() {
                 if (strName.toUpperCase().includes($("#search-button").val().toUpperCase())) 
                 {
                     strSearchResult += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
-                        "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=" +
-                        products[j].ProductName + " data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
+                    "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " onclick='buy(this)'>Buy</button></div></div>";
                 }
             }
         }
@@ -190,20 +294,99 @@ function toast(message, time)
     $("div#st-toast").html(message);
 }
 
-function fetchData() 
-{
-    $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json", function (data) 
-    {
-        categories = data.value;
-    });
-    $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json", function (data) 
-    {
-        products = data.value;
+function getCategories()
 
+{
+    $.ajax({
+        url: 'https://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json',
+        type: 'GET',
+        dataType: 'json',
+        timeout: 15000,
+        success: function(objResponse)
+        {
+            categories = objResponse.value;
+            getProducts();
+        },
+        error: function()
+        {
+            alert('Something went wrong, please try again.');
+        }                       
     });
 }
+function getProducts()
+{
+    $.ajax({
+        url: 'https://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json',
+        type: 'GET',
+        dataType: 'json',
+        timeout: 15000,
+        success: function(objResponse)
+        {
+            products = objResponse.value;
+            onPageLoad();
+        },
+        error: function()
+        {
+            alert('Something went wrong, please try again.');
+        }                   
+    });
+}
+function getProducts()
+{
+    $.ajax({
+        url: 'https://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json',
+        type: 'GET',
+        dataType: 'json',
+        timeout: 15000,
+        success: function(objResponse)
+        {
+            products = objResponse.value;
+            getEmployees();
+        },
+        error: function()
+        {
+            alert('Something went wrong, please try again.');
+        }                   
+    });
+}
+function getEmployees() {
+    $.ajax({
+        url: 'https://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json',
+        type: 'GET',
+        dataType: 'json',
+        timeout: 15000,
+        success: function (objResponse) 
+        {
+            arrEmployees = objResponse.value;
+            arrBoughtProducts = JSON.parse(localStorage.getItem("arrBoughtProducts"));
+            if (arrBoughtProducts == null) 
+            {
+                arrBoughtProducts= [[]];
+                for (let i = 0; i < arrEmployees.length; i++) 
+                {
+                    arrBoughtProducts[i] = new Array();
+                    for (let j = 0; j < products.length; j++) 
+                    {
+                        arrBoughtProducts[i][products[j].ProductID] = 0;
+                    }
+                }
+            }
+            onPageLoad();
+        },
+        error: function () {
+            alert('Something went wrong, please try again.');
+        }
+    });
+}
+
+
+
 function onPageLoad() 
 {
+    strAdminContent = "";
+    boolDoOnce = true;
+    strCategories = "";
+    strContent = "";
     for (var i = 0; i < categories.length; i++) 
     {
         strCategories += '<option value ="' + categories[i].CategoryID + '">' + categories[i].CategoryName + '</option>';
@@ -214,20 +397,21 @@ function onPageLoad()
             {
                 if (i + 1 == products[j].CategoryID) 
                 {
-                    arrCategories[products[j].CategoryID] += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg><br></div>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
-                        "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=\"" +
-                        products[j].ProductName + "\" data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
+                    arrCategories[products[j].CategoryID] += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
+                    "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " onclick='buy(this)'>Buy</button></div></div>";
                 }
                 if (boolDoOnce) 
                 {
                     strContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
-                        "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=" +
-                        products[j].ProductName + " data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
+                        "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " onclick='buy(this)'>Buy</button></div></div>";
+                    strAdminContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
+                    "<button data-product-index=" + j + " onclick='deleteProduct("+ j +")'>Delete item</button></div></div>";
                 }
             }
         }
         boolDoOnce = false;
     }
+    strAdminContent += "<div class = 'st-product st-addContainer' onclick = 'addNewProductMenu()'> <div class = 'st-image'><img src = ./img/addProduct.png></div>Add new product</div>";
     for (var i = 0; i < arrCategories.length; i++)
     {
         if (arrCategories[i] == "") 
@@ -238,60 +422,19 @@ function onPageLoad()
     strCategories += "</select>";
     arrCategories[0] = strContent;
     intChossenCategorie = 0;
-    $('div.st-categories').html(strCategories);
+    $('div.st-categories').html("<select onchange ='onCategoryChange(this)' class='form-control'><option value = '0'> All categories </option>" + strCategories);
     $('div.st-content').html(strContent);
-    intUserID = getCookie();
-    if (intUserID != "") 
+    if(!$.isNumeric(intUserID))
     {
-        checkLogInCredentials();
-        console.log(intUserID);
+        intUserID = getCookie();
+        
     }
-    // $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json", function (data) {
-    //     categories = data.value;
-    //     $.get("https://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json", function (data) {
-    //         products = data.value;
-    //         for (var i = 0; i < categories.length; i++) 
-    //         {
-    //             strCategories += '<option value ="' + categories[i].CategoryID + '">' + categories[i].CategoryName + '</option>';
-    //             arrCategories[i + 1] = "";
-    //             for (var j = 0; j < products.length; j++) 
-    //             {
-    //                 if (products[j] != null)
-    //                 {
-    //                     if (i + 1 == products[j].CategoryID) 
-    //                     {
-    //                         arrCategories[products[j].CategoryID] += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg><br></div>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
-    //                             "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=\"" +
-    //                             products[j].ProductName + "\" data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
-    //                     }
-    //                     if (boolDoOnce) 
-    //                     {
-    //                         strContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
-    //                             "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " data-product-name=" +
-    //                             products[j].ProductName + " data-unit-price=" + products[j].UnitPrice + " onclick='buy(this)'>Buy</button></div></div>";
-    //                     }
-    //                 }
-    //             }
-    //             boolDoOnce = false;
-    //         }
-    //         for (var i = 0; i < arrCategories.length; i++)
-    //         {
-    //             if (arrCategories[i] == "") 
-    //             {
-    //                 arrCategories[i] = "<img class = 'st-empty' src = './img/empty.jpg'>";
-    //             }
-    //         }
-    //         strCategories += "</select>";
-    //         arrCategories[0] = strContent;
-    //         intChossenCategorie = 0;
-    //         $('div.st-categories').html(strCategories);
-    //         $('div.st-content').html(strContent);
-    //         intUserID = getCookie();
-    //         if (intUserID != "") 
-    //         {
-    //             checkLogInCredentials();
-    //             console.log(intUserID);
-    //         }
-    //     });
-    // });
+    if (intUserID != "") 
+        {
+            if (intUserID == -1)
+        {
+          $('div.st-categories').html("");
+        } 
+            checkLogInCredentials();
+        } 
 }

@@ -56,6 +56,7 @@ body
                 color:white;
             }
         }
+      
     }
     div.st-categories
     {
@@ -89,6 +90,7 @@ body
         width:100%;
         grid-gap: 5px;
         justify-content: center;
+        position: relative;
         margin:10px auto;
         @include break-point(1200px)
         {
@@ -114,19 +116,29 @@ body
         {
             border: 1px solid black;
             border-radius: 5px;
-            padding:5px;
+            padding:5px 5px 35px 5px;
             user-select: none;
+            position: relative;
             height: 100%;
             input
             {
                 width:50px;
             }
+            div.st-details
+            {
+                position:absolute;
+                bottom:5px;
+            }
+        }
+        div.st-addContainer
+        {
+            text-align: center;
         }
         div.st-image
         {
-            width:100%;
             img 
             {
+                width:100px;
                 margin: 0px auto;
                display:block;
             }   
@@ -137,6 +149,18 @@ body
             grid-column-end:4;
             margin: 0px auto;
         }
+    button.st-back 
+        {
+        grid-column: 1/span 2;
+        grid-column-start:1;
+        font-weight: 700;
+        font-size: 30px;
+        background-color:$gray;
+        text-align: center;
+        user-select:none;
+        cursor:pointer;
+        }
+       
     }
     #st-toast 
     {
