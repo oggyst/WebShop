@@ -102,7 +102,7 @@ function shoppingCart()
                         boolCartIsEmpty = false;
                         totalCost += arrBoughtProducts[intUserID][i] *  Math.floor(products[j].UnitPrice);
                         shoppingView += "<tr class = 'product'><td><div class = 'st-image'><img src = ./img/sample.jpg></div></td><td>" + products[j].ProductName  + "</td><td>" + Math.floor(products[j].UnitPrice) + "€ </td><td>"  + 
-                        "<input type='number' value = " + arrBoughtProducts[intUserID][i] + " class = 'st-quantity' min = '1' max = '999' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " onclick='confirmNewQuantity(this)'>Confirm</button><td>"+ arrBoughtProducts[intUserID][i] *  Math.floor(products[j].UnitPrice)  +"€</td></td></tr>";
+                        "<input type='number' value = " + arrBoughtProducts[intUserID][i] + " class = 'st-quantity' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " onclick='confirmNewQuantity(this)'>Confirm</button><td>"+ arrBoughtProducts[intUserID][i] *  Math.floor(products[j].UnitPrice)  +"€</td></td></tr>";
                     }
                 }
                 
@@ -111,14 +111,24 @@ function shoppingCart()
     console.log(boolCartIsEmpty);
     if (boolCartIsEmpty)
     {
-        $(".st-shopping-cart").html("<img class = 'st-empty-cart' src = './img/empty-cart.png'><br><tr><td colspan = '4' class = 'st-back'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button></td></tr>");
+        $(".st-shopping-cart").html("<img class = 'st-empty-cart' src = './img/empty-cart.png'><br><tr><td colspan = '2' class = 'st-back'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button></td></tr>");
     } else 
     {
-        $(".st-shopping-cart").html(shoppingView + "<tr><td colspan = '4' class = 'st-back'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button></td><td class = 'st-total'>Total cost: "+ totalCost + "€</tr>");
+        $(".st-shopping-cart").html(shoppingView + "<tr><td colspan = '2' class = 'st-back'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button><td colspan = '2'><button  onclick = 'finishShoping()'>Finish</button></td></td><td class = 'st-total'>Total cost: "+ totalCost + "€</tr>");
     }
     $(".st-categories").html("");
    
     $(".st-content").html("");
+}
+
+function finishShoping()
+{
+    toast ("You have successfully finished shoping." , 5000);
+    for ( let i = 0;arrBoughtProducts[intChossenCategorie].length > i; i++)
+    {
+        arrBoughtProducts[intChossenCategorie][i] = 0;
+    }
+    returnToMainPage();
 }
 
 function buy(element) 
@@ -157,7 +167,7 @@ function checkLogInCredentials()
             boolLogedIn = true;
             strChossenUser = "";
             strChossenUser += 'From ' + arrEmployees[intUserID].Address;
-            strChossenUser += ' , ' + arrEmployees[intUserID].Country + ' , ';
+            strChossenUser += ' ,<br> ' + arrEmployees[intUserID].Country + ' <br>  ';
             strChossenUser += arrEmployees[intUserID].City;
             toast("Welcome back " + arrEmployees[intUserID].FirstName, 3000);
             $("#modalLoginForm").modal('hide');
@@ -181,9 +191,9 @@ function checkLogInCredentials()
                 boolLogedIn = true;
                 intUserID = i;
                 strChossenUser = "";
-                strChossenUser += 'From ' + arrEmployees[i].Address;
-                strChossenUser += ' , ' + arrEmployees[i].Country + ' , ';
-                strChossenUser += arrEmployees[i].City;
+                strChossenUser += 'From ' + arrEmployees[intUserID].Address;
+                strChossenUser += ' ,<br> ' + arrEmployees[intUserID].Country + ' <br>  ';
+                strChossenUser += arrEmployees[intUserID].City;
                 toast("Welcome back " + strUsername, 3000);
                 $("#modalLoginForm").modal('hide');
                 $("p#st-incorrect-credentials").html("");
