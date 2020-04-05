@@ -111,7 +111,7 @@ function shoppingCart()
     console.log(boolCartIsEmpty);
     if (boolCartIsEmpty)
     {
-        $(".st-shopping-cart").html("<img class = 'st-empty-cart' src = './img/empty-cart.png'><br><tr><td colspan = '2' class = 'st-back'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button></td></tr>");
+        $(".st-shopping-cart").html("<img class = 'st-empty-cart' src = './img/empty-cart.png'><br><tr><td colspan = '2' class = 'st-back'><div class = 'st-back-holder'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button></div></td></tr>");
     } else 
     {
         $(".st-shopping-cart").html(shoppingView + "<tr><td colspan = '2' class = 'st-back'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button><td colspan = '2'><button  onclick = 'finishShoping()'>Finish</button></td></td><td class = 'st-total'>Total cost: "+ totalCost + "€</tr>");
@@ -128,6 +128,7 @@ function finishShoping()
     {
         arrBoughtProducts[intChossenCategorie][i] = 0;
     }
+    localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
     returnToMainPage();
 }
 
@@ -242,7 +243,6 @@ function displayUserInfo()
     $("#st-user-info").modal('show');
     console.log(strChossenUser);
     $(".st-user-text").html(strChossenUser);
-    // toast(strChossenUser,5000);
 }
 
 function logOut() 

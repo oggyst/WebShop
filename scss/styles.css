@@ -214,6 +214,10 @@ body div.st-shopping-cart {
   width: 100%;
 }
 
+body div.st-shopping-cart div.st-back-holder button {
+  margin: 50px calc((100% - 50px)/2);
+}
+
 @media (max-width: 1200px) {
   body div.st-shopping-cart {
     max-width: 930px;

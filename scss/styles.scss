@@ -187,7 +187,14 @@ body
         display:table;
         width: 100%;
         border-collapse: collapse;
-        width: 100%;    
+        width: 100%;  
+        div.st-back-holder
+        {
+            button 
+            {
+                margin:50px calc((100% - 50px)/2)
+            }
+        } 
         @include break-point(1200px)
         {
             max-width:930px;
