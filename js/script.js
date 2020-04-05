@@ -107,7 +107,7 @@ function shoppingCart()
                 }
                 
             }
-    }
+        }
     console.log(boolCartIsEmpty);
     if (boolCartIsEmpty)
     {
@@ -488,11 +488,13 @@ function onPageLoad()
             arrCategories[i] = "<img class = 'st-empty' src = './img/empty.jpg'>";
         }
     }
+
     strCategories += "</select>";
     arrCategories[0] = strContent;
     intChossenCategorie = 0;
     $('div.st-categories').html("<select onchange ='onCategoryChange(this)' class='form-control'><option value = '0'> All categories </option>" + strCategories);
     $('div.st-content').html(strContent);
+    $('div.st-shopping-cart').html("");
     if(!$.isNumeric(intUserID))
     {
         intUserID = getCookie();
