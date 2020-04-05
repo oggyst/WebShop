@@ -13,7 +13,13 @@ let totalPrice = 0;
 boolDoOnce = true;
 function deleteProduct(elementIndex)
 {
+    console.log(products);
+    console.log(arrBoughtProducts);
     products.splice(elementIndex, 1);
+    for(let i = 0; i < arrEmployees.length.length; i++)
+    {
+    arrBoughtProducts[i][elementIndex].splice(1);
+    }
     boolDoOnce = true;
     onPageLoad();
 }
@@ -32,7 +38,7 @@ function addProduct(categories)
    } else 
    {
         let categorie = $("#st-categories").val();
-        let index = products.length;
+        let index = products.length+1;
         let tempArray = {
             ProductID:index,
             ProductName:productName,
@@ -46,51 +52,80 @@ function addProduct(categories)
     }
 
 }
-function removeFromCart (element)
+function confirmNewQuantity (element)
 {
     let quantity = $("#st-quantity" + element.dataset.productId).val();
-    if (arrBoughtProducts[intUserID][element.dataset.productId-1] < quantity)
+    if (quantity >= 1000)
     {
-        toast ("You can't remove more than you have in cart.", 5000);
-    } else
+        toast("You can't purchase that much. ", 5000);
+    } else 
     {
-        arrBoughtProducts[intUserID][element.dataset.productId-1] = parseInt(arrBoughtProducts[intUserID][element.dataset.productId-1]) - parseInt(quantity);
-        toast ("Sucesfully removed items from shoping cart.");
+        arrBoughtProducts[intUserID][element.dataset.productId] = parseInt(quantity);
         localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
-    } 
+        toast("You sucessfully changed quanity", 5000);
     shoppingCart();
+    }
 }
 function onCategoryChange(categoryID) {
-    $('div.st-content').html(arrCategories[categoryID.value]);
+    if (arrCategories[categoryID.value] != "<img class = 'st-empty' src = './img/empty.jpg'>")
+    {
+      $('div.st-content').html(arrCategories[categoryID.value]);
+      $('div.st-shopping-cart').html("");
+    } else
+    {
+        $('div.st-content').html("");
+        $('div.st-shopping-cart').html(arrCategories[categoryID.value]);
+    }
+
     intChossenCategorie = categoryID.value;
+    $("#search-button").val("");
 }
 function returnToMainPage()
 {
     $(".st-content").html(strContent);
     $('div.st-categories').html("<select onchange ='onCategoryChange(this)' class='form-control'><option value = '0'> All categories </option>"  + strCategories);
-    onCategoryChange(0);
+    $("div.st-shopping-cart").html("");
 }
 function shoppingCart()
 {
-    let shoppingView = "";
+    let totalCost = 0;
+    let boolCartIsEmpty = true;
+    let shoppingView = "<tr><th></th><th>Product name</th><th>Product price</th><th>Quantity</th><th>Total</th>";
     for(let i = 0; i < arrBoughtProducts[intUserID].length; i++)
     {
-    if(arrBoughtProducts[intUserID][i] > 0)
+        if(arrBoughtProducts[intUserID][i] > 0)
+            {
+                for(let j = 0; j < products.length; j++)
+                {
+                    if(i == products[j].ProductID)
+                    {
+                        boolCartIsEmpty = false;
+                        totalCost += arrBoughtProducts[intUserID][i] *  Math.floor(products[j].UnitPrice);
+                        shoppingView += "<tr class = 'product'><td><div class = 'st-image'><img src = ./img/sample.jpg></div></td><td>" + products[j].ProductName  + "</td><td>" + Math.floor(products[j].UnitPrice) + "€ </td><td>"  + 
+                        "<input type='number' value = " + arrBoughtProducts[intUserID][i] + " class = 'st-quantity' min = '1' max = '999' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " onclick='confirmNewQuantity(this)'>Confirm</button><td>"+ arrBoughtProducts[intUserID][i] *  Math.floor(products[j].UnitPrice)  +"€</td></td></tr>";
+                    }
+                }
+                
+            }
+    }
+    console.log(boolCartIsEmpty);
+    if (boolCartIsEmpty)
     {
-        shoppingView += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[i - 1].ProductName + "<br>" + Math.floor(products[i].UnitPrice) + "€ "  + arrBoughtProducts[intUserID][i] + "<div class = 'st-details'>" +
-       "<input type='number' class = 'st-buy-button' min = '1' max = '" + arrBoughtProducts[intUserID][i] + "' id='st-quantity" + products[i].ProductID + "'><button data-product-id=" + products[i].ProductID + " onclick='removeFromCart(this)'>Remove</button></div></div>";
-    }
-    }
-    if (shoppingView == "")
+        $(".st-shopping-cart").html("<img class = 'st-empty-cart' src = './img/empty-cart.png'><br><tr><td colspan = '4' class = 'st-back'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button></td></tr>");
+    } else 
     {
-        shoppingView = "<img class = 'st-empty-cart' src = './img/empty-cart.png'>"
+        $(".st-shopping-cart").html(shoppingView + "<tr><td colspan = '4' class = 'st-back'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button></td><td class = 'st-total'>Total cost: "+ totalCost + "€</tr>");
     }
-    $(".st-content").html(shoppingView + "<br><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button>");
+    $(".st-categories").html("");
+   
+    $(".st-content").html("");
 }
 
 function buy(element) 
 {
     let quantity = $("#st-quantity" + element.dataset.productId).val();
+    console.log(products);
+    console.log(element.dataset.productId);
     if (quantity < 1) 
     {
         toast("Quantity value can't be lower than 1.", 5000);
@@ -108,8 +143,7 @@ function buy(element)
             }
             arrBoughtProducts[intUserID][element.dataset.productId] = parseInt(arrBoughtProducts[intUserID][element.dataset.productId]) + parseInt(quantity);
             localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
-            toast("Sucesfully added " + quantity + "x    " + products[element.dataset.productId - 1].ProductName + " to shoping cart", 5000);
-            totalPrice += Math.floor(products[element.dataset.productId - 1].UnitPrice) * quantity;
+            toast("Sucesfully added item to shoping cart", 5000);
         }
     }
 }
@@ -165,7 +199,7 @@ function checkLogInCredentials()
                 $("#modalLoginForm").modal('hide');
                 $("p#st-incorrect-credentials").html("");
                 $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown onclick='this.blur()'> Welcome <br> admin" +
-                    "<div class = 'dropdown-content'><a onclick = 'displayUserInfo()'> User info </a><a onclick = 'addProduct()'> Add product </a><a onclick = 'logOut()'>Sign out</a></button>");
+                    "<div class = 'dropdown-content'><a onclick = 'displayUserInfo()'> User info </a><a onclick = 'addNewProductMenu()'> Add product </a><a onclick = 'logOut()'>Sign out</a></button>");
             }
         }
     if (document.getElementById("st-keep-loged-in").checked) 
@@ -195,7 +229,10 @@ function checkLogInCredentials()
 
 function displayUserInfo()
 {
-    toast(strChossenUser,5000);
+    $("#st-user-info").modal('show');
+    console.log(strChossenUser);
+    $(".st-user-text").html(strChossenUser);
+    // toast(strChossenUser,5000);
 }
 
 function logOut() 
@@ -209,6 +246,13 @@ function logOut()
 }
 
 function search() {
+
+    if($('div.st-shopping-cart').html() != "")
+    {
+       $(".st-shopping-cart").html("");
+       $('div.st-categories').html("<select onchange ='onCategoryChange(this)' class='form-control'><option value = '0'> All categories </option>"  + strCategories);
+    }
+
     if ($("#search-button").val() == undefined) 
     {
         $("st-content").innerHTML = arrCategories[intChossenCategorie];
@@ -221,18 +265,33 @@ function search() {
             if (intChossenCategorie == products[j].CategoryID || intChossenCategorie == 0) 
             {
                 strName = products[j].ProductName;
-                if (strName.toUpperCase().includes($("#search-button").val().toUpperCase())) 
+                if (products[j].ProductName.toUpperCase().includes($("#search-button").val().toUpperCase())) 
                 {
+                    if(intUserID == -1)
+                    {
+                        strSearchResult += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
+                        "<button data-product-index=" + j + " onclick='deleteProduct("+ j +")'>Delete item</button></div></div>";
+                    } else 
+                    {
                     strSearchResult += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
                     "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " onclick='buy(this)'>Buy</button></div></div>";
+                    }
                 }
             }
         }
-        $(".st-content").html(strSearchResult);
+        if (strSearchResult == "")
+        {
+            strSearchResult = '<img class = "st-no-search-result" src = ./img/noSearchResults.jpg>';
+            $(".st-content").html("");
+            $(".st-shopping-cart").html(strSearchResult);
+        } else
+        {
+            $(".st-content").html(strSearchResult);
+        }
+
 
     }
 }
-
 
 $("#username").keypress(function (event) 
 {

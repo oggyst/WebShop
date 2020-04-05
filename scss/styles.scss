@@ -3,7 +3,7 @@
 body
 {
     
-    div.container
+    div.container 
     {
         img 
         {
@@ -110,7 +110,6 @@ body
         {
             width:calc(100% - 30px);
             grid-template-columns: 1fr;
-
         }
         div.st-product
         {
@@ -143,12 +142,6 @@ body
                display:block;
             }   
         }
-        img.st-empty
-        {
-            grid-column-start: 2;
-            grid-column-end:4;
-            margin: 0px auto;
-        }
     button.st-back 
         {
         grid-column: 1/span 2;
@@ -160,8 +153,82 @@ body
         user-select:none;
         cursor:pointer;
         }
-       
     }
+    div.st-shopping-cart
+    {
+        max-width:1100px;
+        margin:auto;
+        display:table;
+        width: 100%;
+        border-collapse: collapse;
+        width: 100%;    
+        @include break-point(1200px)
+        {
+            max-width:930px;
+        }
+        @include break-point(991px)
+        {
+            max-width: 690px;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        @include break-point(767px)
+        {
+            max-width: 512px;
+            grid-template-columns: 1fr 1fr;
+        }
+        @include break-point (575px)
+        {
+            width:calc(100% - 30px);
+            grid-template-columns: 1fr;
+        }
+        img.st-no-search-result
+        {
+            width:400px;
+            margin: 0px calc((100% - 400px)/2);
+        }
+        img.st-empty-cart
+        {
+            width:300px;
+            margin: 0px calc((100% - 300px)/2);
+        }
+        img.st-empty
+        {
+            width:400px;
+            margin: 0px calc((100% - 400px)/2); 
+        }
+        th, td {
+        border-top: 1px solid #dddddd;
+        border-bottom: 1px solid #dddddd;
+        padding: 8px;
+        text-align: center;
+        vertical-align: middle;
+        }
+        tr.product
+        {
+            &:hover
+            {
+                background-color: $green;
+            }
+            td.st-back
+            {
+                border:0px;
+            }
+            td.st-total
+            {
+                border:0px;
+            }
+            div.st-image
+            {
+                width:150px;
+                float:left;
+            }
+            input
+            {
+                text-align: center;
+            }
+        }
+    }
+    
     #st-toast 
     {
         @include toast-style();
@@ -169,5 +236,12 @@ body
     p#st-incorrect-credentials
     {
         color:red;
+    }
+    div#st-user-info
+    {
+        div.st-user-text
+        {
+            text-align:center;
+        }
     }
 }

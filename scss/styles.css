@@ -161,13 +161,6 @@ body div.st-content div.st-image img {
   display: block;
 }
 
-body div.st-content img.st-empty {
-  -ms-grid-column: 2;
-      grid-column-start: 2;
-  grid-column-end: 4;
-  margin: 0px auto;
-}
-
 body div.st-content button.st-back {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
@@ -175,13 +168,96 @@ body div.st-content button.st-back {
   grid-column-start: 1;
   font-weight: 700;
   font-size: 30px;
-  background-color: #E5E7E6;
+  background-color: #f2f2f2;
   text-align: center;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   cursor: pointer;
+}
+
+body div.st-shopping-cart {
+  max-width: 1100px;
+  margin: auto;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  body div.st-shopping-cart {
+    max-width: 930px;
+  }
+}
+
+@media (max-width: 991px) {
+  body div.st-shopping-cart {
+    max-width: 690px;
+    -ms-grid-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  body div.st-shopping-cart {
+    max-width: 512px;
+    -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 575px) {
+  body div.st-shopping-cart {
+    width: calc(100% - 30px);
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+}
+
+body div.st-shopping-cart img.st-no-search-result {
+  width: 400px;
+  margin: 0px calc((100% - 400px)/2);
+}
+
+body div.st-shopping-cart img.st-empty-cart {
+  width: 300px;
+  margin: 0px calc((100% - 300px)/2);
+}
+
+body div.st-shopping-cart img.st-empty {
+  width: 400px;
+  margin: 0px calc((100% - 400px)/2);
+}
+
+body div.st-shopping-cart th, body div.st-shopping-cart td {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  padding: 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+body div.st-shopping-cart tr.product:hover {
+  background-color: #f2ffe6;
+}
+
+body div.st-shopping-cart tr.product td.st-back {
+  border: 0px;
+}
+
+body div.st-shopping-cart tr.product td.st-total {
+  border: 0px;
+}
+
+body div.st-shopping-cart tr.product div.st-image {
+  width: 150px;
+  float: left;
+}
+
+body div.st-shopping-cart tr.product input {
+  text-align: center;
 }
 
 body #st-toast {
@@ -251,5 +327,9 @@ body #st-toast.show {
 
 body p#st-incorrect-credentials {
   color: red;
+}
+
+body div#st-user-info div.st-user-text {
+  text-align: center;
 }
 /*# sourceMappingURL=styles.css.map */
