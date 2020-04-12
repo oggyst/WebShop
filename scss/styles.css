@@ -369,4 +369,9 @@ body p#st-incorrect-credentials {
 body div#st-user-info div.st-user-text {
   text-align: center;
 }
+
+body button.st-login {
+  background-color: #2BBBAD;
+  color: white;
+}
 /*# sourceMappingURL=styles.css.map */
