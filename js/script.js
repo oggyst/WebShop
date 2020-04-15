@@ -516,7 +516,7 @@ function onPageLoad()
                 }
                 if (boolDoOnce) 
                 {
-                    strContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br> ${products[j].ProductName} <br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
+                    strContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
                         "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " onclick='buy(this)'>Buy</button></div></div>";
                     strAdminContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
                     "<button data-product-index=" + j + " onclick='deleteProduct("+ j +")'>Delete item</button></div></div>";
