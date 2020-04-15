@@ -198,9 +198,9 @@ function buy(element)
             arrBoughtProducts[intUserID][element.dataset.productId] = parseInt(arrBoughtProducts[intUserID][element.dataset.productId]) + parseInt(quantity);
             localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
             toast("Sucesfully added item to shoping cart", 5000);
+            updateQuickPreview();
         }
     }
-    updateQuickPreview();
 }
 function checkLogInCredentials() 
 {
@@ -553,5 +553,4 @@ function onPageLoad()
         } 
             checkLogInCredentials();
         } 
-    updateQuickPreview();
 }
