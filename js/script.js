@@ -11,23 +11,63 @@ let products;
 let categories;
 let totalPrice = 0;
 boolDoOnce = true;
+
+function updateQuickPreview()
+{
+    let shoppingView;
+    let totalCost = 0;
+    boolCartIsEmpty = true;
+    for(let i = 0; i < arrBoughtProducts[intUserID].length; i++)
+    {
+        if(arrBoughtProducts[intUserID][i] > 0)
+            {
+                for(let j = 0; j < products.length; j++)
+                {
+                    if(i == products[j].ProductID)
+                    {
+                        boolCartIsEmpty = false;
+                        totalCost += arrBoughtProducts[intUserID][i] *  Math.floor(products[j].UnitPrice);
+                        shoppingView += "<tr class = 'product'><td><div class = 'st-image'><img src = ./img/sample.jpg></div></td><td>" + products[j].ProductName  + "</td><td>" + Math.floor(products[j].UnitPrice) + "€ </td><td>"  + 
+                        "<i onclick='shoppingCart()' class='fas fa-pencil-alt'></i><i onclick = 'zeroQuantity(this)' data-product-id=" + products[j].ProductID + " class='fas fa-trash'></i><td>"+ arrBoughtProducts[intUserID][i] + " x " +  Math.floor(products[j].UnitPrice)  +"€</td></td></tr>";
+                    }
+                }
+                
+            }
+        }
+    console.log(boolCartIsEmpty);
+    if (boolCartIsEmpty)
+    {
+        $("div.st-cart-quick-preview").html("<p class = 'st-green'>There is no articles in your shopping cart</p>");
+    } else 
+    {
+        $("div.st-cart-quick-preview").html(shoppingView + "<tr><td colspan = '2'><button  onclick = 'shoppingCart()'>My cart</button><td colspan = '2'><button  onclick = 'finishShoping()'>Finish</button></td></td><td class = 'st-total'>Total cost: "+ totalCost + "€</tr>");
+    }
+}
+
+function zeroQuantity(element)
+{
+    arrBoughtProducts[intUserID][element.dataset.productId] = 0;
+    localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
+    toast("You sucessfully deleted item", 5000);
+    updateQuickPreview();
+}
+
 function deleteProduct(elementIndex)
 {
     console.log(products);
-    console.log(arrBoughtProducts);
-    products.splice(elementIndex, 1);
     for(let i = 0; i < arrEmployees.length.length; i++)
     {
     arrBoughtProducts[i][elementIndex].splice(1);
     }
     boolDoOnce = true;
-    onPageLoad();
 }
+
 function addNewProductMenu()
 {
     $("select#st-categories").html("<select onchange ='onCategoryChange(this)' class='form-control'>" + strCategories);
     $("#modalAddProductForm").modal('show');
 }
+
 function addProduct(categories)
 {
     let productName = $("#productName").val();
@@ -52,6 +92,7 @@ function addProduct(categories)
     }
 
 }
+
 function confirmNewQuantity (element)
 {
     let quantity = $("#st-quantity" + element.dataset.productId).val();
@@ -64,8 +105,10 @@ function confirmNewQuantity (element)
         localStorage.setItem("arrBoughtProducts", JSON.stringify(arrBoughtProducts));
         toast("You sucessfully changed quanity", 5000);
     shoppingCart();
+    updateQuickPreview();
     }
 }
+
 function onCategoryChange(categoryID) {
     if (arrCategories[categoryID.value] != "<img class = 'st-empty' src = './img/empty.jpg'>")
     {
@@ -80,12 +123,14 @@ function onCategoryChange(categoryID) {
     intChossenCategorie = categoryID.value;
     $("#search-button").val("");
 }
+
 function returnToMainPage()
 {
     $(".st-content").html(strContent);
     $('div.st-categories').html("<select onchange ='onCategoryChange(this)' class='form-control'><option value = '0'> All categories </option>"  + strCategories);
     $("div.st-shopping-cart").html("");
 }
+
 function shoppingCart()
 {
     let totalCost = 0;
@@ -108,7 +153,6 @@ function shoppingCart()
                 
             }
         }
-    console.log(boolCartIsEmpty);
     if (boolCartIsEmpty)
     {
         $(".st-shopping-cart").html("<img class = 'st-empty-cart' src = './img/empty-cart.png'><br><tr><td colspan = '2' class = 'st-back'><div class = 'st-back-holder'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button></div></td></tr>");
@@ -117,7 +161,6 @@ function shoppingCart()
         $(".st-shopping-cart").html(shoppingView + "<tr><td colspan = '2' class = 'st-back'><button class = 'st-back' onclick = 'returnToMainPage()'>Back</button><td colspan = '2'><button  onclick = 'finishShoping()'>Finish</button></td></td><td class = 'st-total'>Total cost: "+ totalCost + "€</tr>");
     }
     $(".st-categories").html("");
-   
     $(".st-content").html("");
 }
 
@@ -157,6 +200,7 @@ function buy(element)
             toast("Sucesfully added item to shoping cart", 5000);
         }
     }
+    updateQuickPreview();
 }
 function checkLogInCredentials() 
 {
@@ -174,7 +218,7 @@ function checkLogInCredentials()
             $("#modalLoginForm").modal('hide');
             $("p#st-incorrect-credentials").html("");
             $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown' onclick='this.blur()'> " + arrEmployees[intUserID].FirstName + "<br>" +arrEmployees[intUserID].LastName +
-                "<div class = 'dropdown-content'><a onclick = 'displayUserInfo()'> User info </a><a onclick = 'logOut()' href = '#'>Sign out</a></button><button class = 'st-cart btn btn-secondary navbar-dark bg-dark' onclick = 'shoppingCart();this.blur()'><i class='fas fa-shopping-cart'></i></button>");
+                "<div class = 'dropdown-content'><a onclick = 'displayUserInfo()'> User info </a><a onclick = 'logOut()' href = '#'>Sign out</a></button><button class = 'st-cart btn btn-secondary navbar-dark bg-dark' onclick = 'shoppingCart();this.blur()'><i class='fas fa-shopping-cart'><div class = 'st-cart-quick-preview' onclick = ''></div></i></button>");
         } else {
             strChossenUser = "You are loged in as page administrator";
             boolLogedIn = true;
@@ -199,7 +243,7 @@ function checkLogInCredentials()
                 $("#modalLoginForm").modal('hide');
                 $("p#st-incorrect-credentials").html("");
                 $("div.st-account").html("<button class = 'st-withUser btn btn-secondary navbar-dark bg-dark dropdown onclick='this.blur()'> " + arrEmployees[intUserID].FirstName + "<br>" + arrEmployees[intUserID].LastName +
-                    "<div class = 'dropdown-content'><a onclick = 'displayUserInfo()'> User info </a><a onclick = 'logOut()' href = '#'>Sign out</a></button><button class = 'st-cart btn btn-secondary navbar-dark bg-dark' onclick = 'shoppingCart();this.blur()'><i class='fas fa-shopping-cart'></i></button>");
+                    "<div class = 'dropdown-content'><a onclick = 'displayUserInfo()'> User info </a><a onclick = 'logOut()' href = '#'>Sign out</a></button><button class = 'st-cart btn btn-secondary navbar-dark bg-dark' onclick = 'shoppingCart();this.blur()'><i class='fas fa-shopping-cart'><div class = 'st-cart-quick-preview'></div></i></button>");
             } else if (strUsername == "admin" && strSecondName == "admin") 
             {
                 intUserID = -1;
@@ -382,6 +426,7 @@ function getCategories()
         }                       
     });
 }
+
 function getProducts()
 {
     $.ajax({
@@ -400,6 +445,7 @@ function getProducts()
         }                   
     });
 }
+
 function getProducts()
 {
     $.ajax({
@@ -418,6 +464,7 @@ function getProducts()
         }                   
     });
 }
+
 function getEmployees() {
     $.ajax({
         url: 'https://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json',
@@ -448,8 +495,6 @@ function getEmployees() {
     });
 }
 
-
-
 function onPageLoad() 
 {
     strAdminContent = "";
@@ -471,7 +516,7 @@ function onPageLoad()
                 }
                 if (boolDoOnce) 
                 {
-                    strContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
+                    strContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br> ${products[j].ProductName} <br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
                         "<input type='number' class = 'st-buy-button' min = '1' id='st-quantity" + products[j].ProductID + "'><button data-product-id=" + products[j].ProductID + " onclick='buy(this)'>Buy</button></div></div>";
                     strAdminContent += "<div class = 'st-product'> <div class = 'st-image'><img src = ./img/sample.jpg></div><br>" + products[j].ProductName + "<br>" + Math.floor(products[j].UnitPrice) + "€ <div class = 'st-details'>" +
                     "<button data-product-index=" + j + " onclick='deleteProduct("+ j +")'>Delete item</button></div></div>";
@@ -508,4 +553,5 @@ function onPageLoad()
         } 
             checkLogInCredentials();
         } 
+    updateQuickPreview();
 }

@@ -96,6 +96,42 @@ body div.st-header div.st-account button.st-cart {
   color: white;
 }
 
+body div.st-header div.st-account button.st-cart div.st-cart-quick-preview {
+  display: none;
+}
+
+body div.st-header div.st-account button.st-cart:hover div.st-cart-quick-preview {
+  display: block;
+  position: absolute;
+  right: 0px;
+  color: black;
+  background-color: white;
+  z-index: 3;
+  border: 1px solid #009344;
+}
+
+body div.st-header div.st-account button.st-cart:hover div.st-cart-quick-preview i {
+  padding: 5px;
+  color: #009344;
+}
+
+body div.st-header div.st-account button.st-cart:hover div.st-cart-quick-preview p.st-green {
+  color: #009344;
+  font-size: 16px;
+  padding: 10px;
+}
+
+body div.st-header div.st-account button.st-cart:hover div.st-cart-quick-preview th, body div.st-header div.st-account button.st-cart:hover div.st-cart-quick-preview td {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  padding: 8px;
+  text-align: center;
+  float: left;
+  height: 80px;
+  font-size: 16px;
+  display: block;
+}
+
 body div.st-categories select.form-control {
   max-width: 1110px;
   margin: 0px auto;
@@ -278,10 +314,6 @@ body div.st-shopping-cart th, body div.st-shopping-cart td {
   padding: 8px;
   text-align: center;
   vertical-align: middle;
-}
-
-body div.st-shopping-cart tr.product:hover {
-  background-color: #f2ffe6;
 }
 
 body div.st-shopping-cart tr.product td.st-total {
